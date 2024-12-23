@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoFileTransfer</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!--HOME-->
+    <section class="home" id="home">
+        <div class="container header">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="main-menu">
+                        <li><a href="#home" class="scroll-link">Home</a></li>
+                        <li><a href="#features" class="scroll-link">Features</a></li>
+                        <li><a href="#transfer" class="scroll-link">Transfer</a></li>
+                        <li><a href="#contact" class="scroll-link">Kontakt</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container left">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="title1">Wanna protect data?</h3>
+                    <h1 class="title2">We can help!🙂</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <div class="container features" id="features">
+        <div class="row">
+            <div class="col-md-4 col-sm-12">
+                <div class="card hidden left-card">
+                    <h3>Railfence cipher algorithm</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora laboriosam magni quos,
+                        consequatur laborum, nam culpa labore, officiis aut quaerat consequuntur? Quidem quaerat animi,
+                        ad rerum exercitationem esse quas inventore?
+                        Voluptatem impedit id perspiciatis nulla consequatur sapiente atque quo voluptates excepturi
+                        odit. Quos debitis doloribus cum hic, corporis illo ratione ducimus unde accusamus dolorum
+                        provident quae et exercitationem nesciunt sed.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <div class="card hidden center-card">
+                    <h3>XXTEA algorithm</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora laboriosam magni quos,
+                        consequatur laborum, nam culpa labore, officiis aut quaerat consequuntur? Quidem quaerat animi,
+                        ad rerum exercitationem esse quas inventore?
+                        Voluptatem impedit id perspiciatis nulla consequatur sapiente atque quo voluptates excepturi
+                        odit. Quos debitis doloribus cum hic, corporis illo ratione ducimus unde accusamus dolorum
+                        provident quae et exercitationem nesciunt sed.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <div class="card hidden right-card">
+                    <h3>CBC algorithm</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora laboriosam magni quos,
+                        consequatur laborum, nam culpa labore, officiis aut quaerat consequuntur? Quidem quaerat animi,
+                        ad rerum exercitationem esse quas inventore?
+                        Voluptatem impedit id perspiciatis nulla consequatur sapiente atque quo voluptates excepturi
+                        odit. Quos debitis doloribus cum hic, corporis illo ratione ducimus unde accusamus dolorum
+                        provident quae et exercitationem nesciunt sed.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TRANSFER -->
+    <div class="container transfer" id="transfer">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="title-transfer">TRANSFER</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-container">
+                    <h3>Upload File To Encode From Target Folder</h3>
+                    <input type="file" id="fileEncode" disabled>
+                    <label><input type="checkbox" name="option" class="checkbox" value="Railfence cipher"> Railfence cipher</label>
+                    <label><input type="checkbox" name="option" class="checkbox" value="XXTEA"> XXTEA</label>
+                    <label><input type="checkbox" name="option" class="checkbox" value="CBC"> CBC</label>
+                    <button id="encode-btn" disabled>Encode</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-container">
+                    <h3>Select File To Send From X Folder</h3>
+                    <input type="file" id="fileSend">
+                    <button id="send-btn" disabled>Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    
+
+
+
+
+    <script src="app.js"></script>
+    <!-- Bootstrap JS with Popper -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
