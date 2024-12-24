@@ -1,18 +1,22 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\CryptoFileApp\\Server\\",
+  "WorkspaceRootPath": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\TransferCryptoFileApp\\Server\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{CF3A5B75-AB3F-47AB-91A2-018355ADD8A9}|WebTemplate.csproj|c:\\users\\matej\\desktop\\zastita informacija\\projekat\\cryptofileapp\\server\\controllers\\controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{CF3A5B75-AB3F-47AB-91A2-018355ADD8A9}|WebTemplate.csproj|c:\\users\\matej\\desktop\\zastita informacija\\projekat\\transfercryptofileapp\\server\\fileproccesing\\filesystemwatcherservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF3A5B75-AB3F-47AB-91A2-018355ADD8A9}|WebTemplate.csproj|solutionrelative:fileproccesing\\filesystemwatcherservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF3A5B75-AB3F-47AB-91A2-018355ADD8A9}|WebTemplate.csproj|c:\\users\\matej\\desktop\\zastita informacija\\projekat\\transfercryptofileapp\\server\\controllers\\controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CF3A5B75-AB3F-47AB-91A2-018355ADD8A9}|WebTemplate.csproj|solutionrelative:controllers\\controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CF3A5B75-AB3F-47AB-91A2-018355ADD8A9}|WebTemplate.csproj|c:\\users\\matej\\desktop\\zastita informacija\\projekat\\cryptofileapp\\server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{CF3A5B75-AB3F-47AB-91A2-018355ADD8A9}|WebTemplate.csproj|c:\\users\\matej\\desktop\\zastita informacija\\projekat\\transfercryptofileapp\\server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CF3A5B75-AB3F-47AB-91A2-018355ADD8A9}|WebTemplate.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CF3A5B75-AB3F-47AB-91A2-018355ADD8A9}|WebTemplate.csproj|c:\\users\\matej\\desktop\\zastita informacija\\projekat\\cryptofileapp\\server\\fileproccesing\\filesystemwatcher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CF3A5B75-AB3F-47AB-91A2-018355ADD8A9}|WebTemplate.csproj|solutionrelative:fileproccesing\\filesystemwatcher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CF3A5B75-AB3F-47AB-91A2-018355ADD8A9}|WebTemplate.csproj|c:\\users\\matej\\desktop\\zastita informacija\\projekat\\transfercryptofileapp\\server\\algorithms\\railfence cipher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF3A5B75-AB3F-47AB-91A2-018355ADD8A9}|WebTemplate.csproj|solutionrelative:algorithms\\railfence cipher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,39 +30,52 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\CryptoFileApp\\Server\\Program.cs",
+              "DocumentMoniker": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\TransferCryptoFileApp\\Server\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\CryptoFileApp\\Server\\Program.cs",
+              "ToolTip": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\TransferCryptoFileApp\\Server\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAABUAAAAAAAAAAAAAACIAAABlAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-23T16:11:47.276Z",
+              "WhenOpened": "2024-12-24T15:43:39.999Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "FileSystemWatcher.cs",
-              "DocumentMoniker": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\CryptoFileApp\\Server\\FileProccesing\\FileSystemWatcher.cs",
-              "RelativeDocumentMoniker": "FileProccesing\\FileSystemWatcher.cs",
-              "ToolTip": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\CryptoFileApp\\Server\\FileProccesing\\FileSystemWatcher.cs",
-              "RelativeToolTip": "FileProccesing\\FileSystemWatcher.cs",
-              "ViewState": "AQIAAAwAAAAAAAAAAAAgwBMAAAAZAAAA",
+              "DocumentIndex": 3,
+              "Title": "Railfence cipher.cs",
+              "DocumentMoniker": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\TransferCryptoFileApp\\Server\\Algorithms\\Railfence cipher.cs",
+              "RelativeDocumentMoniker": "Algorithms\\Railfence cipher.cs",
+              "ToolTip": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\TransferCryptoFileApp\\Server\\Algorithms\\Railfence cipher.cs",
+              "RelativeToolTip": "Algorithms\\Railfence cipher.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAvAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-24T15:34:50.373Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "FileSystemWatcherServices.cs",
+              "DocumentMoniker": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\TransferCryptoFileApp\\Server\\FileProccesing\\FileSystemWatcherServices.cs",
+              "RelativeDocumentMoniker": "FileProccesing\\FileSystemWatcherServices.cs",
+              "ToolTip": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\TransferCryptoFileApp\\Server\\FileProccesing\\FileSystemWatcherServices.cs",
+              "RelativeToolTip": "FileProccesing\\FileSystemWatcherServices.cs",
+              "ViewState": "AQIAAG4AAAAAAAAAAAAYwEMAAABRAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-22T22:09:29.258Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Controller.cs",
-              "DocumentMoniker": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\CryptoFileApp\\Server\\Controllers\\Controller.cs",
+              "DocumentMoniker": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\TransferCryptoFileApp\\Server\\Controllers\\Controller.cs",
               "RelativeDocumentMoniker": "Controllers\\Controller.cs",
-              "ToolTip": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\CryptoFileApp\\Server\\Controllers\\Controller.cs",
+              "ToolTip": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\TransferCryptoFileApp\\Server\\Controllers\\Controller.cs",
               "RelativeToolTip": "Controllers\\Controller.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAABZAAAA",
+              "ViewState": "AQIAAAcAAAAAAAAAAAAgwB0AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-22T22:08:50.586Z",
               "EditorCaption": ""

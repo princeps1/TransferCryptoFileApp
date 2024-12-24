@@ -4,13 +4,22 @@ public class FileController : ControllerBase
 {
     private readonly string Target;
 
-    public FileController()
+    public FileController(FileSystemWatcher watcher)
     {
-        Target = "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\CryptoFileApp\\Target";
+        Target = "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\TransferCryptoFileApp\\Target";
         if (!Directory.Exists(Target))
         {
             Directory.CreateDirectory(Target);
         }
+    }
+
+    [HttpPost("checkbox")]
+    public async Task<IActionResult> SetCheckbox([FromBody] string algorithmType)
+    {
+        Console.WriteLine("Selected algorithm: " + algorithmType);
+        FileSystemWatcherService.SetAlgorithmType(algorithmType);
+
+        return new OkObjectResult($"Promenjen checkbox na {algorithmType}");
     }
 
     [HttpPost("upload")]

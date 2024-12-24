@@ -4562,11 +4562,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\CryptoFileApp\\Server\\WebTemplate.csproj",
+      "projectUniqueName": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\TransferCryptoFileApp\\Server\\WebTemplate.csproj",
       "projectName": "WebTemplate",
-      "projectPath": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\CryptoFileApp\\Server\\WebTemplate.csproj",
+      "projectPath": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\TransferCryptoFileApp\\Server\\WebTemplate.csproj",
       "packagesPath": "C:\\Users\\matej\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\CryptoFileApp\\Server\\obj\\",
+      "outputPath": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\TransferCryptoFileApp\\Server\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\matej\\AppData\\Roaming\\NuGet\\NuGet.Config",

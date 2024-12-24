@@ -1,0 +1,34 @@
+KADA DVOJICA RADIMO NA ISTOJ GRANI main U ISTOM FAJLU:
+-Ako istovremeno radimo na istom fajlu u istoj grani,kolega je prvi pushovao promene na tom fajlu.
+-Ja sam takodje napravio promene, pre nego sto pushujem svoje promene moram da:
+	git add .
+	git commit -m "moje promene"
+	ONDA
+	git pull origin main
+	RESIM KONFLIKTE
+	git add .
+	git commit -m "reseni konflikti"
+	git push origin main
+
+
+
+KADA DVOJICA RADIMO,SVAKO NA SVOJOJ GRANI,
+KOLEGA NA GRANI main
+JA NA GRANI mojagrana
+OBOJICA SMO NAPRAVILI IZMENE,KOLEGA JE PUSHOVAO IZMENE,JA TREBA DA RESIM KONFLIKTE,STA TREBA DA URADIM:
+	git add .
+	git commit -m "pusovanje na mojagrana"
+	git push origin mojagrana
+	
+
+	git checkout main
+	git pull origin main
+	SADA NA mojagrana IMAM SVOJE PROMENE,A NA main GRANI IMAM KOLEGINE PROMENE
+	
+	git merge mojagrana
+	JAVICE MI SE DA IMAM KONFLIKTE KOJE MORAM DA RESIM
+	RESAVAM KONFLIKTE
+	
+	git add .
+	git comit -m "mergovanje iz main-a"
+	git push origin main

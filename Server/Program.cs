@@ -18,6 +18,12 @@ try
         });
     });
 
+    builder.Services.AddSingleton<FileSystemWatcher>(provider =>
+    {
+        var watcher = new FileSystemWatcher();
+        // Konfigurišite watcher ako je potrebno
+        return watcher;
+    });
 
 
 
@@ -31,8 +37,8 @@ try
 
     //Dodavanje file System Watcher-a
 
-    string targetDirectory = "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\CryptoFileApp\\Target";
-    string outputDirectory = "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\CryptoFileApp\\X";
+    string targetDirectory = "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\TransferCryptoFileApp\\Target";
+    string outputDirectory = "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\TransferCryptoFileApp\\X";
     var fswService = new FileSystemWatcherService(targetDirectory, outputDirectory, app.Services.GetRequiredService<ILogger<FileSystemWatcherService>>());
     fswService.StartWatching();
     app.Lifetime.ApplicationStopping.Register(() => fswService.StopWatching());
