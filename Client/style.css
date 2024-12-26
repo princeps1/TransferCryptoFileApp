@@ -8,13 +8,16 @@ body {
 
 }
 
-.home {
+.container{
     height: 100vh;
+}
+
+.home {
     background-image: url('images/covek.png');
     width: 100%;
     background-size: cover;
     background-position: center;
-    height: 800px;
+    height: 900px;
     display: flex;
     justify-content: center;
 }
@@ -82,7 +85,6 @@ body {
 /* FEATURES */
 .features {
     margin-top: 100px;
-    height: 100vh;
     border-bottom: 1px solid wheat;
 }
 
@@ -134,14 +136,12 @@ body {
 
 /*  */
 
-/* TRANSFER */
-.transfer {
-    min-height: 100vh;
-    gap: 20px;
-    width: 100%;
-}
 
-.title-transfer {
+
+
+
+/* TRANSFER */
+.title {
     margin-top: 120px;
     margin-bottom: 50px;
     text-align: center;
@@ -195,4 +195,82 @@ button {
 button:disabled {
     background-color: #444;
     cursor: not-allowed;
+}
+
+/* CONTACT */
+
+.contact{
+    margin-top: 200px;
+    height: 60vh;
+}
+
+.teamTitle{
+    color: white;
+    margin-left: 45px;
+    text-transform: uppercase;
+}
+
+.teamPic{
+    margin-left: -200px;
+    border-radius: 8px;
+    width: 600px;
+    height: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    background-image: url('images/tim.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.info{
+    margin-top: 70px;
+    width: 500px;
+    margin-left: auto;
+    color: white;
+    padding: 30px;
+}
+
+.infoTitle{
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.red{
+    margin-bottom: 50px;
+}
+
+.text{
+    float: right;
+    margin: 0;
+    font-weight: bolder;
+    margin-left: 70px;
+    color: wheat;
+}
+
+.text a {
+    margin-top: 5px;
+    color: wheat;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+
+/* FOOTER */
+footer{
+    background-color: #0c0c0cb0;
+    height: 60px;
+    margin-top: 300px;
+    position: relative;
+    margin-left: auto;
+}
+
+footer h2{
+    text-align: center;
+    padding-top: 20px ;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: large;
+    color: #535050;
+    margin-top: 20px;
+    
 }
