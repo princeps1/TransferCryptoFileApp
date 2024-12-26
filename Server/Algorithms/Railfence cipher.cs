@@ -4,32 +4,41 @@ namespace WebTemplate.Algorithms;
 
 public static class Railfence_cipher
 {
-    private static List<int> MakeKey(int Depth)
-    {
-        List<int> Key = new List<int>();
-        int m = 0;
-        int factor = Depth * 2 - 2;
 
-        // Create the key
-        try
+    public static byte[] Encrypt(byte[] content)
+    {
+        List<byte> EncryptedContent = new List<byte>();
+
+        int Depth = 2;
+        List<int> Key = MakeKey(Depth); // Create key
+
+        int left = 0, right = Depth - 1;
+        // Encode content
+        for (int i = 0; i < Depth; i++) // Number of rows
         {
-            for (int i = 0; i < Depth; i++)
+            int j = 0;
+            int index = i;
+            do
             {
-                Key.Add(factor - m);
-                m += 2;
-            }
-            if (Key.Count == 0)
-                throw new ArgumentException("Depth must be greater than 0.");
-            Key[Key.Count - 1] = Key[0];
+                if ((j % 2) == 0)
+                {
+                    EncryptedContent.Add(content[index]);
+                    index += Key[left];
+                }
+                else
+                {
+                    EncryptedContent.Add(content[index]);
+                    index += Key[right];
+                }
+                j++;
+            } while (index < content.Count());
+            left++;
+            right--;
         }
-        catch (Exception ex)
-        {
-            throw;
-        }
-        return Key;
+        return EncryptedContent.ToArray();
     }
 
-    public static byte[] DecodeFile(byte[] encryptedContent)
+    public static byte[] Decrypt(byte[] encryptedContent)
     {
         List<byte> DecodedContent = new List<byte>(new byte[encryptedContent.Length]);
         int Depth = 2;
@@ -84,36 +93,29 @@ public static class Railfence_cipher
         return DecodedContent.ToArray();
     }
 
-    public static byte[] EncodeFile(byte[] content)
+
+    private static List<int> MakeKey(int Depth)
     {
-        List<byte> EncryptedContent = new List<byte>();
+        List<int> Key = new List<int>();
+        int m = 0;
+        int factor = Depth * 2 - 2;
 
-        int Depth = 2;
-        List<int> Key = MakeKey(Depth); // Create key
-
-        int left = 0, right = Depth - 1;
-        // Encode content
-        for (int i = 0; i < Depth; i++) // Number of rows
+        // Create the key
+        try
         {
-            int j = 0;
-            int index = i;
-            do
+            for (int i = 0; i < Depth; i++)
             {
-                if ((j % 2) == 0)
-                {
-                    EncryptedContent.Add(content[index]);
-                    index += Key[left];
-                }
-                else
-                {
-                    EncryptedContent.Add(content[index]);
-                    index += Key[right];
-                }
-                j++;
-            } while (index < content.Count());
-            left++;
-            right--;
+                Key.Add(factor - m);
+                m += 2;
+            }
+            if (Key.Count == 0)
+                throw new ArgumentException("Depth must be greater than 0.");
+            Key[Key.Count - 1] = Key[0];
         }
-        return EncryptedContent.ToArray();
+        catch (Exception ex)
+        {
+            throw;
+        }
+        return Key;
     }
 }
