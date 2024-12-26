@@ -6,9 +6,9 @@ public class FileSystemWatcherService
     private readonly string _targetDirectory;
     private readonly string _outputDirectory;
     private readonly ILogger<FileSystemWatcherService> _logger;
-    private FileSystemWatcher _watcher;
+    private FileSystemWatcher? _watcher;
 
-    private static string algorithmType;
+    private static string? algorithmType;
 
     public FileSystemWatcherService(string targetDirectory, string outputDirectory, ILogger<FileSystemWatcherService> logger)
     {
@@ -66,7 +66,10 @@ public class FileSystemWatcherService
                     //////////// ****KODIRANJE PRAVO - Railfence cipher*****
                     byte[] fileContentInBytes = await File.ReadAllBytesAsync(e.FullPath);
                     byte[] encodedContent = Railfence_cipher.Encrypt(fileContentInBytes);
-                    string outputFilePath = Path.Combine(_outputDirectory, e.Name);
+                    string extension = Path.GetExtension(e.FullPath);
+                    string name = Path.GetFileNameWithoutExtension(e.FullPath);
+                    string FileName = string.Concat(name, "-Railfence", extension);
+                    string outputFilePath = Path.Combine(_outputDirectory, FileName);
                     await File.WriteAllBytesAsync(outputFilePath, encodedContent);
 
                     //////////// ****DEKODIRANJE PRAVO - Railfence cipher*****
@@ -97,16 +100,48 @@ public class FileSystemWatcherService
                     //////////// ****KODIRANJE PRAVO - XXTEA*****
                     byte[] fileContentInBytes = await File.ReadAllBytesAsync(e.FullPath);
                     byte[] encodedContent = XXTEA.Encrypt(fileContentInBytes);
-                    string outputFilePath = Path.Combine(_outputDirectory, e.Name);
+                    string extension = Path.GetExtension(e.FullPath);
+                    string name = Path.GetFileNameWithoutExtension(e.FullPath);
+                    string FileName = string.Concat(name, "-XXTEA", extension);
+                    string outputFilePath = Path.Combine(_outputDirectory, FileName);
                     await File.WriteAllBytesAsync(outputFilePath, encodedContent);
+
 
                     ////////////// ****DEKODIRANJE PRAVO - XXTEA*****
                     //byte[] decodedContentInBytes = XXTEA.Decrypt(encodedContent);
-                    //string decodedFile = Convert.ToBase64String(decodedContentInBytes);
                     //string outputDecodedFilePath = Path.Combine(_outputDirectory, e.Name);
                     //await File.WriteAllBytesAsync(outputDecodedFilePath, decodedContentInBytes);
 
+                    // Brisanje fajla
+                    DeleteFileWithRetry(e.FullPath);
+                }
+               else if(algorithmType == "XXTEA - CBC")
+                {
+                    // Čekaj dok fajl ne bude spreman
+                    int retries = 5;
+                    while (retries > 0 && !IsFileReady(e.FullPath))
+                    {
+                        await Task.Delay(1000); // Sačekaj 1 sekundu
+                        retries--;
+                    }
 
+                    if (!IsFileReady(e.FullPath))
+                    {
+                        _logger.LogError("File is still in use after retries: {FileName}", e.Name);
+                        return;
+                    }
+
+                    //////////// ****KODIRANJE PRAVO - XXTEACBC*****
+                    //byte[] fileContentInBytes = await File.ReadAllBytesAsync(e.FullPath);
+                    //byte[] encodedContent = XXTEACBC.EncryptWithCBC(fileContentInBytes);
+                    //string outputFilePath = Path.Combine(_outputDirectory, e.Name);
+                    //await File.WriteAllBytesAsync(outputFilePath, encodedContent);
+
+
+                    ////////////// ****DEKODIRANJE PRAVO - XXTEACBC*****
+                    //byte[] decodedContentInBytes = XXTEACBC.DecryptWithCBC(encodedContent);
+                    //string outputDecodedFilePath = Path.Combine(_outputDirectory, e.Name);
+                    //await File.WriteAllBytesAsync(outputDecodedFilePath, decodedContentInBytes);
 
 
                     // Brisanje fajla

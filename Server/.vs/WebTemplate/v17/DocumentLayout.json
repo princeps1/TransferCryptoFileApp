@@ -7,12 +7,12 @@
       "RelativeMoniker": "D:0:0:{CF3A5B75-AB3F-47AB-91A2-018355ADD8A9}|WebTemplate.csproj|solutionrelative:fileproccesing\\filesystemwatcherservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CF3A5B75-AB3F-47AB-91A2-018355ADD8A9}|WebTemplate.csproj|c:\\users\\matej\\desktop\\zastita informacija\\projekat\\transfercryptofileapp\\server\\algorithms\\xxtea.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CF3A5B75-AB3F-47AB-91A2-018355ADD8A9}|WebTemplate.csproj|solutionrelative:algorithms\\xxtea.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CF3A5B75-AB3F-47AB-91A2-018355ADD8A9}|WebTemplate.csproj|c:\\users\\matej\\desktop\\zastita informacija\\projekat\\transfercryptofileapp\\server\\algorithms\\xxteacbc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF3A5B75-AB3F-47AB-91A2-018355ADD8A9}|WebTemplate.csproj|solutionrelative:algorithms\\xxteacbc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CF3A5B75-AB3F-47AB-91A2-018355ADD8A9}|WebTemplate.csproj|c:\\users\\matej\\desktop\\zastita informacija\\projekat\\transfercryptofileapp\\server\\algorithms\\railfence cipher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CF3A5B75-AB3F-47AB-91A2-018355ADD8A9}|WebTemplate.csproj|solutionrelative:algorithms\\railfence cipher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CF3A5B75-AB3F-47AB-91A2-018355ADD8A9}|WebTemplate.csproj|c:\\users\\matej\\desktop\\zastita informacija\\projekat\\transfercryptofileapp\\server\\algorithms\\xxtea.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF3A5B75-AB3F-47AB-91A2-018355ADD8A9}|WebTemplate.csproj|solutionrelative:algorithms\\xxtea.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{CF3A5B75-AB3F-47AB-91A2-018355ADD8A9}|WebTemplate.csproj|c:\\users\\matej\\desktop\\zastita informacija\\projekat\\transfercryptofileapp\\server\\controllers\\controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -30,26 +30,26 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Railfence cipher.cs",
-              "DocumentMoniker": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\TransferCryptoFileApp\\Server\\Algorithms\\Railfence cipher.cs",
-              "RelativeDocumentMoniker": "Algorithms\\Railfence cipher.cs",
-              "ToolTip": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\TransferCryptoFileApp\\Server\\Algorithms\\Railfence cipher.cs",
-              "RelativeToolTip": "Algorithms\\Railfence cipher.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAZAAAA",
+              "DocumentIndex": 1,
+              "Title": "XXTEACBC.cs",
+              "DocumentMoniker": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\TransferCryptoFileApp\\Server\\Algorithms\\XXTEACBC.cs",
+              "RelativeDocumentMoniker": "Algorithms\\XXTEACBC.cs",
+              "ToolTip": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\TransferCryptoFileApp\\Server\\Algorithms\\XXTEACBC.cs",
+              "RelativeToolTip": "Algorithms\\XXTEACBC.cs",
+              "ViewState": "AQIAAFkAAAAAAAAAAAAkwGsAAAADAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-25T20:14:27.988Z",
+              "WhenOpened": "2024-12-26T15:15:45.217Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "XXTEA.cs",
               "DocumentMoniker": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\TransferCryptoFileApp\\Server\\Algorithms\\XXTEA.cs",
               "RelativeDocumentMoniker": "Algorithms\\XXTEA.cs",
               "ToolTip": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\TransferCryptoFileApp\\Server\\Algorithms\\XXTEA.cs",
               "RelativeToolTip": "Algorithms\\XXTEA.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAH8AAAAlAAAA",
+              "ViewState": "AQIAAH4AAAAAAAAAAAAnwIgAAAAcAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-25T16:16:58.493Z",
               "EditorCaption": ""
@@ -62,7 +62,7 @@
               "RelativeDocumentMoniker": "FileProccesing\\FileSystemWatcherServices.cs",
               "ToolTip": "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\TransferCryptoFileApp\\Server\\FileProccesing\\FileSystemWatcherServices.cs",
               "RelativeToolTip": "FileProccesing\\FileSystemWatcherServices.cs",
-              "ViewState": "AQIAAFYAAAAAAAAAAAAAAGoAAABiAAAA",
+              "ViewState": "AQIAAJkAAAAAAAAAAAAwwGcAAAAQAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-22T22:09:29.258Z",
               "EditorCaption": ""

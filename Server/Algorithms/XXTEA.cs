@@ -134,7 +134,7 @@ public sealed class XXTEA
             n -= 4;
             if ((m < n - 3) || (m > n))
             {
-                return null;
+                return null!;
             }
             n = m;
         }
