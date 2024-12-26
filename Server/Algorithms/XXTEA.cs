@@ -1,122 +1,148 @@
 ﻿namespace WebTemplate.Algorithms;
 
+
 using System;
 using System.Text;
-using System.Text.Unicode;
 
-public class XXTEA
+public sealed class XXTEA
 {
-    private static readonly uint Delta = 0x9E3779B9;
-    private static readonly string key = "princeps";
+    private static readonly UTF8Encoding utf8 = new UTF8Encoding();
 
-    public static byte[] Encrypt(byte[] data)
+    private const UInt32 delta = 0x9E3779B9;
+    private static Byte[] key = Encoding.UTF8.GetBytes("princeps");
+
+    private static UInt32 MX(UInt32 sum, UInt32 y, UInt32 z, Int32 p, UInt32 e, UInt32[] k)
     {
-        if (data == null || data.Length == 0) return data;
-
-        uint[] v = ToUInt32Array(data, true);
-        uint[] k = ToUInt32Array(Encoding.ASCII.GetBytes(key), false);
-
-        if (k.Length < 4)
-        {
-            Array.Resize(ref k, 4); // Dodaje 0 sve dok niz nema 4 elementa
-        }
-
-        uint n = (uint)v.Length - 1;
-        if (n < 1) return data;
-
-        uint sum = 0;
-        uint rounds = 6 + 52 / (n + 1);
-
-        for (uint i = 0; i < rounds; i++)
-        {
-            sum += Delta;
-            uint e = (sum >> 2) & 3;
-
-            for (uint p = 0; p < n; p++)
-            {
-                uint y = v[p + 1];
-                uint z = v[p];
-                v[p] += ((z >> 5) ^ (y << 2)) + ((y ^ sum) + (k[(p & 3) ^ e] ^ z));
-            }
-
-            v[n] += ((v[0] >> 5) ^ (v[n - 1] << 2)) + ((v[n - 1] ^ sum) + (k[(n & 3) ^ e] ^ v[0]));
-        }
-
-        byte[] res = ToByteArray(v, true);
-        return res;
+        return (z >> 5 ^ y << 2) + (y >> 3 ^ z << 4) ^ (sum ^ y) + (k[p & 3 ^ e] ^ z);
     }
 
-
-
-
-    public static byte[] Decrypt(byte[] data)
+    public static Byte[] Encrypt(Byte[] data)
     {
-        if (data == null || data.Length == 0) return data;
-
-        uint[] v = ToUInt32Array(data, true);
-        uint[] k = ToUInt32Array(Encoding.ASCII.GetBytes(key), false);
-
-        if (k.Length < 4)
+        if (data.Length == 0)
         {
-            Array.Resize(ref k, 4); // Dodaje 0 sve dok niz nema 4 elementa
+            return data;
         }
-
-        uint n = (uint)v.Length - 1;
-        if (n < 1) return data;
-
-        uint rounds = 6 + 52 / (n + 1);
-        uint sum = rounds * Delta;
-
-        for (uint i = 0; i < rounds; i++)
-        {
-            uint e = (sum >> 2) & 3;
-
-            for (uint p = n; p > 0; p--)
-            {
-                uint z = v[p - 1];
-                uint y = v[p];
-                v[p] -= ((z >> 5) ^ (y << 2)) + ((y ^ sum) + (k[(p & 3) ^ e] ^ z));
-            }
-
-            uint zLast = v[n];
-            uint yFirst = v[0];
-            v[0] -= ((zLast >> 5) ^ (yFirst << 2)) + ((yFirst ^ sum) + (k[(n & 3) ^ e] ^ zLast));
-
-            sum -= Delta;
-        }
-
-        // Vraća podatke u originalnom formatu (izbacujući dužinu)
-        return ToByteArray(v, false);
+        return ToByteArray(Encrypt(ToUInt32Array(data, true), ToUInt32Array(FixKey(key), false)), false);
     }
 
-
-
-
-
-    private static uint[] ToUInt32Array(byte[] data, bool includeLength)
+    public static Byte[] Decrypt(Byte[] data)
     {
-        int n = (data.Length + 3) / 4;
-        uint[] result = new uint[includeLength ? n + 1 : n];
-        Buffer.BlockCopy(data, 0, result, 0, data.Length);//uint je velicine 4 bajta,pa ce ovo podeliti da svaki element niza result sadrzi blok od 4 slova.Obrnuti redosled ide
+        if (data.Length == 0)
+        {
+            return data;
+        }
+        return ToByteArray(Decrypt(ToUInt32Array(data, false), ToUInt32Array(FixKey(key), false)), true);
+    }
 
+    private static UInt32[] Encrypt(UInt32[] v, UInt32[] k)
+    {
+        Int32 n = v.Length - 1;
+        if (n < 1)
+        {
+            return v;
+        }
+        UInt32 z = v[n], y, sum = 0, e;
+        Int32 p, q = 6 + 52 / (n + 1);
+        unchecked
+        {
+            while (0 < q--)
+            {
+                sum += delta;
+                e = sum >> 2 & 3;
+                for (p = 0; p < n; p++)
+                {
+                    y = v[p + 1];
+                    z = v[p] += MX(sum, y, z, p, e, k);
+                }
+                y = v[0];
+                z = v[n] += MX(sum, y, z, p, e, k);
+            }
+        }
+        return v;
+    }
+
+    private static UInt32[] Decrypt(UInt32[] v, UInt32[] k)
+    {
+        Int32 n = v.Length - 1;
+        if (n < 1)
+        {
+            return v;
+        }
+        UInt32 z, y = v[0], sum, e;
+        Int32 p, q = 6 + 52 / (n + 1);
+        unchecked
+        {
+            sum = (UInt32)(q * delta);
+            while (sum != 0)
+            {
+                e = sum >> 2 & 3;
+                for (p = n; p > 0; p--)
+                {
+                    z = v[p - 1];
+                    y = v[p] -= MX(sum, y, z, p, e, k);
+                }
+                z = v[n];
+                y = v[0] -= MX(sum, y, z, p, e, k);
+                sum -= delta;
+            }
+        }
+        return v;
+    }
+
+    private static Byte[] FixKey(Byte[] key)
+    {
+        if (key.Length == 16) return key;
+        Byte[] fixedkey = new Byte[16];
+        if (key.Length < 16)
+        {
+            key.CopyTo(fixedkey, 0);
+        }
+        else
+        {
+            Array.Copy(key, 0, fixedkey, 0, 16);
+        }
+        return fixedkey;
+    }
+
+    private static UInt32[] ToUInt32Array(Byte[] data, Boolean includeLength)
+    {
+        Int32 length = data.Length;
+        Int32 n = (((length & 3) == 0) ? (length >> 2) : ((length >> 2) + 1));
+        UInt32[] result;
         if (includeLength)
-            result[n] = (uint)data.Length;
-
+        {
+            result = new UInt32[n + 1];
+            result[n] = (UInt32)length;
+        }
+        else
+        {
+            result = new UInt32[n];
+        }
+        for (Int32 i = 0; i < length; i++)
+        {
+            result[i >> 2] |= (UInt32)data[i] << ((i & 3) << 3);
+        }
         return result;
     }
 
-    private static byte[] ToByteArray(uint[] data, bool includeLength)
+    private static Byte[] ToByteArray(UInt32[] data, Boolean includeLength)
     {
-        int n = data.Length * 4;
+        Int32 n = data.Length << 2;
         if (includeLength)
         {
-            int m = (int)data[data.Length - 1];
-            n = m < n ? m : n;
+            Int32 m = (Int32)data[data.Length - 1];
+            n -= 4;
+            if ((m < n - 3) || (m > n))
+            {
+                return null;
+            }
+            n = m;
         }
-
-        byte[] result = new byte[n];
-        Buffer.BlockCopy(data, 0, result, 0, n);
-
+        Byte[] result = new Byte[n];
+        for (Int32 i = 0; i < n; i++)
+        {
+            result[i] = (Byte)(data[i >> 2] >> ((i & 3) << 3));
+        }
         return result;
     }
 }

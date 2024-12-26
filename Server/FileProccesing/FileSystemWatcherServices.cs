@@ -1,4 +1,5 @@
-﻿using WebTemplate.Algorithms;
+﻿using System.Text;
+using WebTemplate.Algorithms;
 
 public class FileSystemWatcherService
 {
@@ -65,14 +66,14 @@ public class FileSystemWatcherService
                     //////////// ****KODIRANJE PRAVO - Railfence cipher*****
                     byte[] fileContentInBytes = await File.ReadAllBytesAsync(e.FullPath);
                     byte[] encodedContent = Railfence_cipher.Encrypt(fileContentInBytes);
-                    //string outputFilePath = Path.Combine(_outputDirectory, e.Name);
-                    //await File.WriteAllBytesAsync(outputFilePath, encodedContent);
+                    string outputFilePath = Path.Combine(_outputDirectory, e.Name);
+                    await File.WriteAllBytesAsync(outputFilePath, encodedContent);
 
                     //////////// ****DEKODIRANJE PRAVO - Railfence cipher*****
-                    byte[] decodedContentInBytes = Railfence_cipher.Decrypt(encodedContent);
-                    string decodedFile = Convert.ToBase64String(decodedContentInBytes);
-                    string outputDecodedFilePath = Path.Combine(_outputDirectory, e.Name);
-                    await File.WriteAllBytesAsync(outputDecodedFilePath, decodedContentInBytes);
+                    //byte[] decodedContentInBytes = Railfence_cipher.Decrypt(encodedContent);
+                    //string decodedFile = Convert.ToBase64String(decodedContentInBytes);
+                    //string outputDecodedFilePath = Path.Combine(_outputDirectory, e.Name);
+                    //await File.WriteAllBytesAsync(outputDecodedFilePath, decodedContentInBytes);
 
                     // Brisanje fajla
                     DeleteFileWithRetry(e.FullPath);
@@ -96,14 +97,17 @@ public class FileSystemWatcherService
                     //////////// ****KODIRANJE PRAVO - XXTEA*****
                     byte[] fileContentInBytes = await File.ReadAllBytesAsync(e.FullPath);
                     byte[] encodedContent = XXTEA.Encrypt(fileContentInBytes);
-                    //string outputFilePath = Path.Combine(_outputDirectory, e.Name);
-                    //await File.WriteAllBytesAsync(outputFilePath, encodedContent);
+                    string outputFilePath = Path.Combine(_outputDirectory, e.Name);
+                    await File.WriteAllBytesAsync(outputFilePath, encodedContent);
 
-                    //////////// ****DEKODIRANJE PRAVO - XXTEA*****
-                    byte[] decodedContentInBytes = XXTEA.Decrypt(encodedContent);
-                    string decodedFile = Convert.ToBase64String(decodedContentInBytes);
-                    string outputDecodedFilePath = Path.Combine(_outputDirectory, e.Name);
-                    await File.WriteAllBytesAsync(outputDecodedFilePath, decodedContentInBytes);
+                    ////////////// ****DEKODIRANJE PRAVO - XXTEA*****
+                    //byte[] decodedContentInBytes = XXTEA.Decrypt(encodedContent);
+                    //string decodedFile = Convert.ToBase64String(decodedContentInBytes);
+                    //string outputDecodedFilePath = Path.Combine(_outputDirectory, e.Name);
+                    //await File.WriteAllBytesAsync(outputDecodedFilePath, decodedContentInBytes);
+
+
+
 
                     // Brisanje fajla
                     DeleteFileWithRetry(e.FullPath);
