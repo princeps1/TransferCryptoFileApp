@@ -25,6 +25,16 @@ try
         return watcher;
     });
 
+    //var portArgument = Array.Find(args, arg => arg.StartsWith("--port="));
+    //if (portArgument != null)
+    //{
+    //    var portValue = portArgument.Split('=')[1];
+    //    if (int.TryParse(portValue, out var port))
+    //    {
+    //        builder.Configuration["Application:ListeningPort"] = port.ToString();
+    //    }
+    //}
+
 
 
     builder.Services.AddControllers();//dodavanje kontrolera
