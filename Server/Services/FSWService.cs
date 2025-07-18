@@ -1,12 +1,8 @@
-﻿using Microsoft.Extensions.FileProviders;
-using WebTemplate.Enums;
-using WebTemplate.Services.Interfaces;
-
-public class FileSystemWatcherService
+﻿public class FSWService
 {
     private readonly string _targetDirectory;
     private readonly string _outputDirectory;
-    private readonly ILogger<FileSystemWatcherService> _logger;
+    private readonly ILogger<FSWService> _logger;
     private FileSystemWatcher? _watcher;
 
     private static AlgorithmType algorithmType;
@@ -14,7 +10,7 @@ public class FileSystemWatcherService
     private readonly IFactory _factory;
     private readonly IWebHostEnvironment _env;
 
-    public FileSystemWatcherService(IWebHostEnvironment env, ILogger<FileSystemWatcherService> logger, IFactory factory)
+    public FSWService(IWebHostEnvironment env, ILogger<FSWService> logger, IFactory factory)
     {
         _env = env;
         _logger = logger;

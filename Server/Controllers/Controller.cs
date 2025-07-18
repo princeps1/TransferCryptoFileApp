@@ -1,18 +1,18 @@
 [ApiController]
 [Route("[controller]")]
-public class FileController : ControllerBase
+public class Controller : ControllerBase
 {
     private readonly string _target;
-    private readonly FileSystemWatcherService _watcherService;
-
-    public FileController(FileSystemWatcherService watcherService)
+    private readonly FSWService _watcherService;
+    private readonly IWebHostEnvironment _env;
+    public Controller(FSWService watcherService,IWebHostEnvironment env)
     {
         _watcherService = watcherService;
-        _target = Path.Combine(
-                              "C:", "Users", "matej", "Desktop",
-                              "Zastita informacija", "Projekat",
-                              "TransferCryptoFileApp", "Target"
-                           );
+        _env = env;
+
+        string rootPath = _env.ContentRootPath;
+        string parentPath = Directory.GetParent(rootPath)!.FullName;
+        _target= Path.Combine(parentPath, "Target");
 
         if (!Directory.Exists(_target))
             Directory.CreateDirectory(_target);

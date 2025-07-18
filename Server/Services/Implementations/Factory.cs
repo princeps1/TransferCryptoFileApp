@@ -1,7 +1,4 @@
-﻿using WebTemplate.Enums;
-using WebTemplate.Services.Interfaces;
-
-namespace WebTemplate.Services.Implementations;
+﻿namespace WebTemplate.Services.Implementations;
 
 public class Factory : IFactory
 {

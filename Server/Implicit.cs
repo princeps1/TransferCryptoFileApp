@@ -1,4 +1,5 @@
-global using Microsoft.EntityFrameworkCore;
 global using Microsoft.AspNetCore.Mvc;
-global using System.ComponentModel.DataAnnotations;
-global using System.ComponentModel.DataAnnotations.Schema;
+global using WebTemplate.Enums;
+global using WebTemplate.Services.Interfaces;
+global using WebTemplate.Services.Implementations;
+global using WebTemplate.Extensions;

@@ -1,6 +1,4 @@
-﻿using WebTemplate.Services.Interfaces;
-
-namespace WebTemplate.Services.Implementations;
+﻿namespace WebTemplate.Services.Implementations;
 
 public class Railfence : IAlgorithm
 {
