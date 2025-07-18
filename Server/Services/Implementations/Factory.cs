@@ -5,11 +5,15 @@ namespace WebTemplate.Services.Implementations;
 
 public class Factory : IFactory
 {
-    private readonly IAlgorithm _railfence;
+    private readonly Railfence _railfence;
+    private readonly XXTEA _xxtea;
+    private readonly XXTEACBC _xxteacbc;
 
-    public Factory(IAlgorithm railfence)
+    public Factory(Railfence railfence,XXTEA xxtea,XXTEACBC xxteacbc)
     {
         _railfence = railfence;
+        _xxtea = xxtea;
+        _xxteacbc = xxteacbc;
     }
 
     public IAlgorithm GetService(AlgorithmType type)
@@ -17,7 +21,8 @@ public class Factory : IFactory
         return type switch
         {
             AlgorithmType.Railfence => _railfence,
-            // Add other algorithms here as needed
+            AlgorithmType.XXTEA => _xxtea,
+            AlgorithmType.XXTEACBC => _xxteacbc,
             _ => throw new NotImplementedException($"Service for {type} is not implemented.")
         };
     }

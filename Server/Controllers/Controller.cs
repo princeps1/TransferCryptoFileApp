@@ -2,24 +2,29 @@
 [Route("[controller]")]
 public class FileController : ControllerBase
 {
-    private readonly string Target;
+    private readonly string _target;
+    private readonly FileSystemWatcherService _watcherService;
 
-    public FileController(FileSystemWatcher watcher)
+    public FileController(FileSystemWatcherService watcherService)
     {
-        Target = "C:\\Users\\matej\\Desktop\\Zastita informacija\\Projekat\\TransferCryptoFileApp\\Target";
-        if (!Directory.Exists(Target))
-        {
-            Directory.CreateDirectory(Target);
-        }
+        _watcherService = watcherService;
+        _target = Path.Combine(
+                              "C:", "Users", "matej", "Desktop",
+                              "Zastita informacija", "Projekat",
+                              "TransferCryptoFileApp", "Target"
+                           );
+
+        if (!Directory.Exists(_target))
+            Directory.CreateDirectory(_target);
     }
 
     [HttpPost("checkbox")]
-    public async Task<IActionResult> SetCheckbox([FromBody] string algorithmType)
+    public IActionResult SetCheckbox([FromBody] string algorithmType)
     {
-        Console.WriteLine("Selected algorithm: " + algorithmType);
-        FileSystemWatcherService.SetAlgorithmType(algorithmType);
-
-        return new OkObjectResult($"Promenjen checkbox na {algorithmType}");
+        if (_watcherService.SetAlgorithmType(algorithmType))
+            return Ok($"Promenjen checkbox na {algorithmType}");
+        else
+            return BadRequest("Greska!");
     }
 
     [HttpPost("upload")]
@@ -28,13 +33,10 @@ public class FileController : ControllerBase
         if (file == null || file.Length == 0)
             return BadRequest("No file uploaded");
 
-        var filePath = Path.Combine(Target, file.FileName);
-        using (var stream = new FileStream(filePath, FileMode.Create))
-        {
-            await file.CopyToAsync(stream);
-        }
+        var filePath = Path.Combine(_target, file.FileName);
+        await using var stream = new FileStream(filePath, FileMode.Create);
+        await file.CopyToAsync(stream);
 
         return Ok(new { message = "Fajl je sačuvan" });
     }
-
 }

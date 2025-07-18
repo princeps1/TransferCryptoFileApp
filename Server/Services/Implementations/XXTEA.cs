@@ -1,22 +1,21 @@
-﻿namespace WebTemplate.Algorithms;
+﻿using System.Text;
+using WebTemplate.Services.Interfaces;
 
+namespace WebTemplate.Services.Implementations;
 
-using System;
-using System.Text;
-
-public sealed class XXTEA
+public class XXTEA : IAlgorithm
 {
     private static readonly UTF8Encoding utf8 = new UTF8Encoding();
 
     private const UInt32 delta = 0x9E3779B9;
     private static Byte[] key = Encoding.UTF8.GetBytes("princeps");
 
-    private static UInt32 MX(UInt32 sum, UInt32 y, UInt32 z, Int32 p, UInt32 e, UInt32[] k)
+    private UInt32 MX(UInt32 sum, UInt32 y, UInt32 z, Int32 p, UInt32 e, UInt32[] k)
     {
         return (z >> 5 ^ y << 2) + (y >> 3 ^ z << 4) ^ (sum ^ y) + (k[p & 3 ^ e] ^ z);
     }
 
-    public static Byte[] Encrypt(Byte[] data)
+    public Byte[] Encrypt(Byte[] data)
     {
         if (data.Length == 0)
         {
@@ -25,7 +24,7 @@ public sealed class XXTEA
         return ToByteArray(Encrypt(ToUInt32Array(data, true), ToUInt32Array(FixKey(key), false)), false);
     }
 
-    public static Byte[] Decrypt(Byte[] data)
+    public Byte[] Decrypt(Byte[] data)
     {
         if (data.Length == 0)
         {
@@ -34,7 +33,7 @@ public sealed class XXTEA
         return ToByteArray(Decrypt(ToUInt32Array(data, false), ToUInt32Array(FixKey(key), false)), true);
     }
 
-    private static UInt32[] Encrypt(UInt32[] v, UInt32[] k)
+    private UInt32[] Encrypt(UInt32[] v, UInt32[] k)
     {
         Int32 n = v.Length - 1;
         if (n < 1)
@@ -61,7 +60,7 @@ public sealed class XXTEA
         return v;
     }
 
-    private static UInt32[] Decrypt(UInt32[] v, UInt32[] k)
+    private UInt32[] Decrypt(UInt32[] v, UInt32[] k)
     {
         Int32 n = v.Length - 1;
         if (n < 1)
@@ -89,7 +88,7 @@ public sealed class XXTEA
         return v;
     }
 
-    private static Byte[] FixKey(Byte[] key)
+    private Byte[] FixKey(Byte[] key)
     {
         if (key.Length == 16) return key;
         Byte[] fixedkey = new Byte[16];
@@ -104,7 +103,7 @@ public sealed class XXTEA
         return fixedkey;
     }
 
-    private static UInt32[] ToUInt32Array(Byte[] data, Boolean includeLength)
+    private UInt32[] ToUInt32Array(Byte[] data, Boolean includeLength)
     {
         Int32 length = data.Length;
         Int32 n = (((length & 3) == 0) ? (length >> 2) : ((length >> 2) + 1));
@@ -125,7 +124,7 @@ public sealed class XXTEA
         return result;
     }
 
-    private static Byte[] ToByteArray(UInt32[] data, Boolean includeLength)
+    private Byte[] ToByteArray(UInt32[] data, Boolean includeLength)
     {
         Int32 n = data.Length << 2;
         if (includeLength)

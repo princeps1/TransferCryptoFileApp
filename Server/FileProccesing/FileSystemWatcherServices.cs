@@ -1,5 +1,4 @@
-﻿using System.Text;
-using WebTemplate.Algorithms;
+﻿using Microsoft.Extensions.FileProviders;
 using WebTemplate.Enums;
 using WebTemplate.Services.Interfaces;
 
@@ -13,16 +12,20 @@ public class FileSystemWatcherService
     private static AlgorithmType algorithmType;
 
     private readonly IFactory _factory;
+    private readonly IWebHostEnvironment _env;
 
-    public FileSystemWatcherService(string targetDirectory, string outputDirectory, ILogger<FileSystemWatcherService> logger, IFactory factory)
+    public FileSystemWatcherService(IWebHostEnvironment env, ILogger<FileSystemWatcherService> logger, IFactory factory)
     {
-
-
-        _targetDirectory = targetDirectory;
-        _outputDirectory = outputDirectory;
+        _env = env;
         _logger = logger;
         _factory = factory;
+
+        string rootPath = _env.ContentRootPath;
+        string parentPath = Directory.GetParent(rootPath)!.FullName;
+        _targetDirectory = Path.Combine(parentPath, "Target");
+        _outputDirectory = Path.Combine(parentPath, "X"); 
     }
+
 
 
     public void StartWatching()
@@ -79,7 +82,6 @@ public class FileSystemWatcherService
                 string outputFilePath = Path.Combine(_outputDirectory, FileName);
                 await File.WriteAllBytesAsync(outputFilePath, encodedContent);
 
-
                 //////////// ****DEKODIRANJE PRAVO - Railfence cipher*****
                 //byte[] decodedContentInBytes = service.Decrypt(encodedContent);
                 //string decodedFile = Convert.ToBase64String(decodedContentInBytes);
@@ -95,140 +97,19 @@ public class FileSystemWatcherService
                 _logger.LogError(ex, "Error processing file {FileName}", e.Name);
             }
         });
-
-        //await Task.Run(async () =>
-        //{
-        //    try
-        //    {
-        //        Console.WriteLine($"New file detected: {e.Name}");
-
-
-
-        //       if(algorithmType == "Railfence")
-        //       {
-        //            // Čekaj dok fajl ne bude spreman
-        //            int retries = 5;
-        //            while (retries > 0 && !IsFileReady(e.FullPath))
-        //            {
-        //                await Task.Delay(1000); // Sačekaj 1 sekundu
-        //                retries--;
-        //            }
-
-        //            if (!IsFileReady(e.FullPath))
-        //            {
-        //                _logger.LogError("File is still in use after retries: {FileName}", e.Name);
-        //                return;
-        //            }
-
-        //            //////////// ****KODIRANJE PRAVO - Railfence cipher*****
-        //            byte[] fileContentInBytes = await File.ReadAllBytesAsync(e.FullPath);
-        //            byte[] encodedContent = _railfence.Encrypt(fileContentInBytes);
-        //            string extension = Path.GetExtension(e.FullPath);
-        //            string name = Path.GetFileNameWithoutExtension(e.FullPath);
-        //            string FileName = string.Concat(name, "-Railfence", extension);
-        //            string outputFilePath = Path.Combine(_outputDirectory, FileName);
-        //            await File.WriteAllBytesAsync(outputFilePath, encodedContent);
-
-        //            //////////// ****DEKODIRANJE PRAVO - Railfence cipher*****
-        //            //byte[] decodedContentInBytes = Railfence_cipher.Decrypt(encodedContent);
-        //            //string decodedFile = Convert.ToBase64String(decodedContentInBytes);
-        //            //string outputDecodedFilePath = Path.Combine(_outputDirectory, e.Name);
-        //            //await File.WriteAllBytesAsync(outputDecodedFilePath, decodedContentInBytes);
-
-        //            // Brisanje fajla
-        //            DeleteFileWithRetry(e.FullPath);
-        //       }
-        //       else if(algorithmType == "XXTEA")
-        //       {
-        //            // Čekaj dok fajl ne bude spreman
-        //            int retries = 5;
-        //            while (retries > 0 && !IsFileReady(e.FullPath))
-        //            {
-        //                await Task.Delay(1000); // Sačekaj 1 sekundu
-        //                retries--;
-        //            }
-
-        //            if (!IsFileReady(e.FullPath))
-        //            {
-        //                _logger.LogError("File is still in use after retries: {FileName}", e.Name);
-        //                return;
-        //            }
-
-        //            //////////// ****KODIRANJE PRAVO - XXTEA*****
-        //            byte[] fileContentInBytes = await File.ReadAllBytesAsync(e.FullPath);
-        //            byte[] encodedContent = XXTEA.Encrypt(fileContentInBytes);
-        //            string extension = Path.GetExtension(e.FullPath);
-        //            string name = Path.GetFileNameWithoutExtension(e.FullPath);
-        //            string FileName = string.Concat(name, "-XXTEA", extension);
-        //            string outputFilePath = Path.Combine(_outputDirectory, FileName);
-        //            await File.WriteAllBytesAsync(outputFilePath, encodedContent);
-
-
-        //            ////////////// ****DEKODIRANJE PRAVO - XXTEA*****
-        //            //byte[] decodedContentInBytes = XXTEA.Decrypt(encodedContent);
-        //            //string outputDecodedFilePath = Path.Combine(_outputDirectory, e.Name);
-        //            //await File.WriteAllBytesAsync(outputDecodedFilePath, decodedContentInBytes);
-
-        //            // Brisanje fajla
-        //            DeleteFileWithRetry(e.FullPath);
-        //        }
-        //       else if(algorithmType == "XXTEACBC")
-        //        {
-        //            // Čekaj dok fajl ne bude spreman
-        //            int retries = 5;
-        //            while (retries > 0 && !IsFileReady(e.FullPath))
-        //            {
-        //                await Task.Delay(1000); // Sačekaj 1 sekundu
-        //                retries--;
-        //            }
-
-        //            if (!IsFileReady(e.FullPath))
-        //            {
-        //                _logger.LogError("File is still in use after retries: {FileName}", e.Name);
-        //                return;
-        //            }
-
-        //            //////////// ****KODIRANJE PRAVO - XXTEACBC*****
-        //            //byte[] fileContentInBytes = await File.ReadAllBytesAsync(e.FullPath);
-        //            //byte[] encodedContent = XXTEACBC.EncryptWithCBC(fileContentInBytes);
-        //            //string outputFilePath = Path.Combine(_outputDirectory, e.Name);
-        //            //await File.WriteAllBytesAsync(outputFilePath, encodedContent);
-
-
-        //            ////////////// ****DEKODIRANJE PRAVO - XXTEACBC*****
-        //            //byte[] decodedContentInBytes = XXTEACBC.DecryptWithCBC(encodedContent);
-        //            //string outputDecodedFilePath = Path.Combine(_outputDirectory, e.Name);
-        //            //await File.WriteAllBytesAsync(outputDecodedFilePath, decodedContentInBytes);
-
-
-        //            // Brisanje fajla
-        //            DeleteFileWithRetry(e.FullPath);
-        //        }
-        //       else
-        //       {
-        //            throw new InvalidOperationException($"Unsupported algorithm: {algorithmType}");
-        //       }
-                
-
-                
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex, "Error processing file {FileName}", e.Name);
-        //    }
-        //});
     }
 
-    public static void SetAlgorithmType(string data)
+    public bool SetAlgorithmType(string data)
     {
-        if (Enum.TryParse(data, out AlgorithmType algorithmType))
+        if (Enum.TryParse<AlgorithmType>(data, out var parsed))
         {
-            // Successfully parsed, now you can use the algorithmType variable
+            algorithmType = parsed;
             Console.WriteLine($"Algorithm selected: {algorithmType}");
+            return true;
         }
         else
         {
-            Console.WriteLine("Invalid algorithm type received.");
+            return false;
         }
     }
 
@@ -247,8 +128,6 @@ public class FileSystemWatcherService
         }
     }
 
-
-    // Retry logic for file deletion
     private void DeleteFileWithRetry(string filePath)
     {
         int retryCount = 3;
@@ -262,7 +141,7 @@ public class FileSystemWatcherService
             catch (IOException)
             {
                 retryCount--;
-                Thread.Sleep(1000); // Retry after 1 second
+                Thread.Sleep(1000);
             }
         }
     }
