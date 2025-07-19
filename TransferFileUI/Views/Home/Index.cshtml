@@ -1,0 +1,142 @@
+﻿@{
+    ViewData["Title"] = "Home";
+    Layout = "_Layout";
+}
+
+<!--HOME-->
+<section class="home" id="home">
+    <div class="container header">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="main-menu">
+                    <li><a href="#home" class="scroll-link">Home</a></li>
+                    <li><a href="#features" class="scroll-link">Features</a></li>
+                    <li><a href="#transfer" class="scroll-link">Transfer</a></li>
+                    <li><a href="#contact" class="scroll-link">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container left">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="title1">Wanna protect data?</h3>
+                <h1 class="title2">We can help!🙂</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- FEATURES -->
+<div class="container features" id="features">
+    <div class="row">
+        <div class="col-md-4 col-sm-12">
+            <div class="card hidden left-card">
+                <h3>Railfence cipher algorithm</h3>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora laboriosam magni quos,
+                    consequatur laborum, nam culpa labore, officiis aut quaerat consequuntur? Quidem quaerat animi,
+                    ad rerum exercitationem esse quas inventore?
+                    Voluptatem impedit id perspiciatis nulla consequatur sapiente atque quo voluptates excepturi
+                    odit. Quos debitis doloribus cum hic, corporis illo ratione ducimus unde accusamus dolorum
+                    provident quae et exercitationem nesciunt sed.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="card hidden center-card">
+                <h3>XXTEA algorithm</h3>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora laboriosam magni quos,
+                    consequatur laborum, nam culpa labore, officiis aut quaerat consequuntur? Quidem quaerat animi,
+                    ad rerum exercitationem esse quas inventore?
+                    Voluptatem impedit id perspiciatis nulla consequatur sapiente atque quo voluptates excepturi
+                    odit. Quos debitis doloribus cum hic, corporis illo ratione ducimus unde accusamus dolorum
+                    provident quae et exercitationem nesciunt sed.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="card hidden right-card">
+                <h3>CBC algorithm</h3>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora laboriosam magni quos,
+                    consequatur laborum, nam culpa labore, officiis aut quaerat consequuntur? Quidem quaerat animi,
+                    ad rerum exercitationem esse quas inventore?
+                    Voluptatem impedit id perspiciatis nulla consequatur sapiente atque quo voluptates excepturi
+                    odit. Quos debitis doloribus cum hic, corporis illo ratione ducimus unde accusamus dolorum
+                    provident quae et exercitationem nesciunt sed.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- TRANSFER -->
+<div class="container transfer" id="transfer">
+    <div class="form-container">
+        <h3>Upload File To Encode From Target Folder</h3>
+        <input type="file" id="fileEncode" disabled />
+        <label><input type="checkbox" name="option" class="checkbox" value="Railfence" /> Railfence cipher</label>
+        <label><input type="checkbox" name="option" class="checkbox" value="XXTEA" /> XXTEA</label>
+        <label><input type="checkbox" name="option" class="checkbox" value="XXTEACBC" /> XXTEA – CBC</label>
+        <button id="encode-btn" disabled>Encode</button>
+    </div>
+
+    <div class="form-container">
+        <h3>Selected File To Send From X Folder</h3>
+        <input type="file" id="fileSend" />
+        <button id="send-btn" disabled>Send</button>
+    </div>
+</div>
+
+<!--CONTACT  -->
+<div class="container contact" id="contact">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="title">Contact</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <h2 class="teamTitle">Our team</h2>
+            <div class="teamPic">
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+            <div class="info">
+                <div class="row red">
+                    <div class="col-md-5">
+                        <h4 class="infoTitle">E-mail</h4>
+                    </div>
+                    <div class="col-md-7">
+                        <h5 class="text"><a href="mailto:matejajovic2002@gmail.com">matejajovic2002@gmail.com</a></h5>
+                    </div>
+                </div>
+                <div class="row red">
+                    <div class="col-md-5">
+                        <h4 class="infoTitle">Number</h4>
+                    </div>
+                    <div class="col-md-7">
+                        <h5 class="text"><a href="tel:+381-64-494-1122">+381-64494-1122</a></h5>
+                    </div>
+                </div>
+
+                <div class="row red">
+                    <div class="col-md-5">
+                        <h4 class="infoTitle">Address</h4>
+                    </div>
+                    <div class="col-md-7">
+                        <h5 class="text"><a href="https://maps.app.goo.gl/pJrFaiDAP4FYgpCq5">Paviljon IV</a></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <h2> &copy; 2024 TransferPrinceps </h2>
+</footer>

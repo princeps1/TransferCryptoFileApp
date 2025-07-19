@@ -1,11 +1,13 @@
+using TransferFileUI.Models;
+
 [ApiController]
-[Route("[controller]")]
-public class Controller : ControllerBase
+[Route("api/[controller]")]
+public class ServiceController : ControllerBase
 {
     private readonly string _target;
     private readonly FSWService _watcherService;
     private readonly IWebHostEnvironment _env;
-    public Controller(FSWService watcherService,IWebHostEnvironment env)
+    public ServiceController(FSWService watcherService,IWebHostEnvironment env)
     {
         _watcherService = watcherService;
         _env = env;
@@ -19,13 +21,14 @@ public class Controller : ControllerBase
     }
 
     [HttpPost("checkbox")]
-    public IActionResult SetCheckbox([FromBody] string algorithmType)
+    public IActionResult SetCheckbox([FromBody] AlgorithmRequest model)
     {
-        if (_watcherService.SetAlgorithmType(algorithmType))
-            return Ok($"Promenjen checkbox na {algorithmType}");
+        if (_watcherService.SetAlgorithmType(model.AlgorithmType))
+            return Ok($"Promenjen checkbox na {model.AlgorithmType}");
         else
             return BadRequest("Greska!");
     }
+
 
     [HttpPost("upload")]
     public async Task<IActionResult> UploadFile([FromForm] IFormFile file)
