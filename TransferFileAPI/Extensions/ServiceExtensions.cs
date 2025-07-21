@@ -26,6 +26,12 @@ public static class ServiceExtensions
         services.AddTransient<XXTEACBC>(); //dodavanje XXTEA algoritma
         services.AddTransient<IFactory, Factory>(); //dodavanje fabrike koja kreira algoritme
 
+
+
+        services.AddSingleton<TcpSocketService>();
+        services.AddHostedService(provider => provider.GetRequiredService<TcpSocketService>());
+
+
         services.AddControllers();//dodavanje kontrolera
 
 
