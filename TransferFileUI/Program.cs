@@ -4,15 +4,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddRefitClient<IFsw>().ConfigureHttpClient(c =>
-{
-    c.BaseAddress = new Uri("http://localhost:5000/");
-});
 
-builder.Services.AddRefitClient<ITcp>().ConfigureHttpClient(c =>
-{
-    c.BaseAddress = new Uri("http://localhost:5000/");
-});
+
+var webApiUrl = builder.Configuration["WebApi:BaseUrl"];
+if (string.IsNullOrWhiteSpace(webApiUrl))
+    throw new InvalidOperationException("Missing WebApi:BaseUrl in configuration");
+
+
+builder.Services.AddRefitClient<IFsw>()
+    .ConfigureHttpClient(c => c.BaseAddress = new Uri(webApiUrl));
+
+builder.Services.AddRefitClient<ITcp>()
+    .ConfigureHttpClient(c => c.BaseAddress = new Uri(webApiUrl));
+
 
 
 var app = builder.Build();

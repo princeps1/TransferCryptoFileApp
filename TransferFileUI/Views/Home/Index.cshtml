@@ -75,6 +75,7 @@
 
 <!-- TRANSFER -->
 <div class="container transfer" id="transfer">
+    <!-- ENCODE SECTION (unchanged) -->
     <div class="form-container">
         <h3>Upload File To Encode From Target Folder</h3>
         <input type="file" id="fileEncode" disabled />
@@ -84,24 +85,27 @@
         <button id="encode-btn" disabled>Encode</button>
     </div>
 
+    <!-- SEND / SERVER SECTION -->
     <div class="form-container">
         <h3>Selected File To Send</h3>
 
-        <!-- New inputs for host and port -->
-        <input type="text"
-               id="hostInput"
-               placeholder="Host (e.g., localhost)" />
+        <!-- SERVER TOGGLE -->
+        <label>
+            <input type="checkbox" id="serverToggle" />
+            Act as server
+        </label>
         <input type="number"
-               id="portInput"
-               placeholder="Port (e.g., 9001)" />
+               id="serverPort"
+               placeholder="Server Port (e.g. 9001)" />
 
-        <!-- File picker -->
+        <!-- CLIENT CONTROLS -->
+        <input type="text" id="hostInput" placeholder="Host (e.g., localhost)" />
+        <input type="number" id="portInput" placeholder="Port (e.g., 9001)" />
         <input type="file" id="fileSend" />
-
-        <!-- Send button, disabled until a file is chosen -->
         <button id="send-btn" disabled>Send</button>
     </div>
 </div>
+
 
 <!--CONTACT  -->
 <div class="container contact" id="contact">

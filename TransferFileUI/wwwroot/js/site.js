@@ -176,3 +176,84 @@ sendBtn.addEventListener('click', async () => {
         alert('Network error occurred. See console for details.');
     }
 });
+
+
+
+
+(function () {
+    // grab all our elements just once
+    const serverToggleEl = document.getElementById('serverToggle');
+    const serverPortEl = document.getElementById('serverPort');
+    const hostInputEl = document.getElementById('hostInput');
+    const portInputEl = document.getElementById('portInput');
+    const fileInputEl = document.getElementById('fileSend');
+    const sendBtnEl = document.getElementById('send-btn');
+
+    // helper to toggle client parts
+    function setClientEnabled(enabled) {
+        hostInputEl.disabled = !enabled;
+        portInputEl.disabled = !enabled;
+        fileInputEl.disabled = !enabled;
+        sendBtnEl.disabled = !enabled || fileInputEl.files.length === 0;
+    }
+
+    // re-check Send button when file changes (only if in client mode)
+    fileInputEl.addEventListener('change', () => {
+        if (!serverToggleEl.checked) {
+            sendBtnEl.disabled = fileInputEl.files.length === 0;
+        }
+    });
+
+    // when the server checkbox flips
+    serverToggleEl.addEventListener('change', async () => {
+        const isServer = serverToggleEl.checked;
+        setClientEnabled(!isServer);
+
+        // choose your MVC endpoints
+        const url = isServer ? '/Tcp/BecomeServer' : '/Tcp/StopServer';
+        const form = new FormData();
+
+        if (isServer) {
+            const portVal = parseInt(serverPortEl.value, 10);
+            if (!portVal) {
+                alert('⚠️ Please enter a valid server port first.');
+                serverToggleEl.checked = false;
+                setClientEnabled(true);
+                return;
+            }
+            form.append('port', portVal);
+        }
+
+        try {
+            const res = await fetch(url, {
+                method: 'POST',
+                body: form
+            });
+            const payload = await res.json();
+
+            if (res.ok) {
+                // success alert varies by action
+                if (isServer) {
+                    alert('✅ Server started on port ' + serverPortEl.value);
+                } else {
+                    alert('🛑 Server stopped.');
+                }
+            } else {
+                // server replied non-200
+                alert('Error: ' + (payload.message || res.statusText));
+                // revert toggle so UI stays consistent
+                serverToggleEl.checked = !isServer;
+                setClientEnabled(true);
+            }
+        } catch (err) {
+            console.error(err);
+            alert('Network error: ' + err.message);
+            serverToggleEl.checked = !isServer;
+            setClientEnabled(true);
+        }
+    });
+
+    // initial state: client enabled
+    setClientEnabled(true);
+})();
+
