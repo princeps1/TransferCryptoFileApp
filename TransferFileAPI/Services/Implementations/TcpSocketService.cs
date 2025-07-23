@@ -77,7 +77,7 @@ public class TcpSocketService : BackgroundService
         int fileLen = BitConverter.ToInt32(buffer, 0);
 
         // Read file bytes and save
-        var saveDir = Path.Combine(Directory.GetCurrentDirectory(), "ReceivedFiles");
+        var saveDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "ReceiveFile");
         Directory.CreateDirectory(saveDir);
         var savePath = Path.Combine(saveDir, fileName);
 

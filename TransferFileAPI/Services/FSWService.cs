@@ -27,15 +27,14 @@
     public void StartWatching()
     {
         if (!Directory.Exists(_targetDirectory))
-            throw new DirectoryNotFoundException($"Target directory '{_targetDirectory}' does not exist.");
-
+            Directory.CreateDirectory(_targetDirectory);
         if (!Directory.Exists(_outputDirectory))
             Directory.CreateDirectory(_outputDirectory);
 
         _watcher = new FileSystemWatcher(_targetDirectory)
         {
             NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite,
-            Filter = "*.*" // Monitoring all file types
+            Filter = "*.*" 
         };
 
         _watcher.Created += OnFileCreated;
@@ -59,7 +58,7 @@
                 int retries = 5;
                 while (retries > 0 && !IsFileReady(e.FullPath))
                 {
-                    await Task.Delay(1000); // Sačekaj 1 sekundu
+                    await Task.Delay(5000); // Sačekaj 1 sekundu
                     retries--;
                 }
 
