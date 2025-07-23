@@ -1,10 +1,10 @@
 ﻿[ApiController]
 [Route("api/[controller]")]
-public class TcpRoleController : ControllerBase
+public class TcpController : ControllerBase
 {
     private readonly TcpSocketService _tcpService;
 
-    public TcpRoleController(TcpSocketService tcpService)
+    public TcpController(TcpSocketService tcpService)
     {
         _tcpService = tcpService;
     }
@@ -25,7 +25,7 @@ public class TcpRoleController : ControllerBase
 
     // --- SEND FILE ENDPOINT ---
     [HttpPost("send-file")]
-    public async Task<IActionResult> SendFile([FromQuery] string host, [FromQuery] int port, [FromForm] IFormFile file)
+    public async Task<IActionResult> SendFile([FromForm] string host,[FromForm] int port,[FromForm] IFormFile file)
     {
         if (file == null || file.Length == 0)
             return BadRequest("No file uploaded");

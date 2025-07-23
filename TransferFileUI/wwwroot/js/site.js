@@ -58,7 +58,7 @@ checkboxes.forEach((checkbox) => {
         // Ako je checkbox selektovan, šalje podatke serveru
         if (checkbox.checked) {
             try {
-                const response = await fetch("/Service/Checkbox", {
+                const response = await fetch("Fsw/Checkbox", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ algorithmType: checkbox.value })  // JSON object
@@ -99,7 +99,7 @@ encodeBtn.addEventListener("click", async () => {
     formData.append("file", selectedFile);
 
     try {
-        const response = await fetch("/Service/Upload", {
+        const response = await fetch("Fsw/Upload", {
             method: "POST",
             body: formData
         });
@@ -123,9 +123,56 @@ encodeBtn.addEventListener("click", async () => {
 //
 //
 //SLANJE FAJLA
-const fileSendInput = document.getElementById("fileSend");
-const sendBtn = document.getElementById("send-btn");
 
-fileSendInput.addEventListener("change", () => {
-    sendBtn.disabled = !fileSendInput.files.length;
+const hostInput = document.getElementById('hostInput');
+const portInput = document.getElementById('portInput');
+const fileInput = document.getElementById('fileSend');
+const sendBtn = document.getElementById('send-btn');
+
+// Enable the send button only when a file is selected
+fileInput.addEventListener('change', () => {
+    sendBtn.disabled = fileInput.files.length === 0;
+});
+
+sendBtn.addEventListener('click', async () => {
+    const host = hostInput.value.trim();
+    const port = parseInt(portInput.value, 10);
+    const file = fileInput.files[0];
+
+    // Basic validation
+    if (!host) {
+        return alert('Please enter a host.');
+    }
+    if (!port) {
+        return alert('Please enter a valid port.');
+    }
+    if (!file) {
+        return alert('Please select a file.');
+    }
+
+    // Build form data
+    const formData = new FormData();
+    formData.append('host', host);
+    formData.append('port', port);
+    formData.append('file', file);
+
+    try {
+        const response = await fetch('/Tcp/SendFile', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log('Success:', result);
+            alert(result.message);
+        } else {
+            const errorText = await response.text();
+            console.error('Server error:', errorText);
+            alert('Error: ' + errorText);
+        }
+    } catch (err) {
+        console.error('Network error:', err);
+        alert('Network error occurred. See console for details.');
+    }
 });

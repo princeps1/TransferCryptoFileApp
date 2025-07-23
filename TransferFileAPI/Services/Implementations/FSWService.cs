@@ -1,4 +1,6 @@
-﻿public class FSWService
+﻿namespace WebTemplate.Services.Implementations;
+
+public class FSWService
 {
     private readonly string _targetDirectory;
     private readonly string _outputDirectory;

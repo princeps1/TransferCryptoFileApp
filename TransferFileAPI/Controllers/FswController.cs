@@ -2,12 +2,12 @@ using TransferFileUI.Models;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ServiceController : ControllerBase
+public class FswController : ControllerBase
 {
     private readonly string _target;
     private readonly FSWService _watcherService;
     private readonly IWebHostEnvironment _env;
-    public ServiceController(FSWService watcherService,IWebHostEnvironment env)
+    public FswController(FSWService watcherService,IWebHostEnvironment env)
     {
         _watcherService = watcherService;
         _env = env;

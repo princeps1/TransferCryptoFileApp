@@ -6,12 +6,12 @@ using TransferFileUI.Models;
 namespace TransferFileUI.Controllers;
 
 [ApiController]
-[Route("Service")]
-public class ServiceController : Controller
+[Route("Fsw")]
+public class FswController : Controller
 {
-    private readonly IData _dataService;
+    private readonly IFsw _dataService;
 
-    public ServiceController(IData dataService)
+    public FswController(IFsw dataService)
     {
         _dataService = dataService;
     }

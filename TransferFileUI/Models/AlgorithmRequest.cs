@@ -2,5 +2,5 @@
 
 public class AlgorithmRequest
 {
-    public string AlgorithmType { get; set; }
+    public required string AlgorithmType { get; set; }
 }

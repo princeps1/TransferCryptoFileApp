@@ -76,11 +76,12 @@ public class TcpSocketService : BackgroundService
         await stream.ReadAsync(buffer, 0, 4);
         int fileLen = BitConverter.ToInt32(buffer, 0);
 
-        // Read file bytes and save
+        
         var saveDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, "ReceiveFile");
         Directory.CreateDirectory(saveDir);
         var savePath = Path.Combine(saveDir, fileName);
 
+        // Read file bytes and save
         using var fileStream = new FileStream(savePath, FileMode.Create, FileAccess.Write);
         int totalRead = 0;
         var fileBuffer = new byte[4096];

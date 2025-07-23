@@ -85,8 +85,20 @@
     </div>
 
     <div class="form-container">
-        <h3>Selected File To Send From X Folder</h3>
+        <h3>Selected File To Send</h3>
+
+        <!-- New inputs for host and port -->
+        <input type="text"
+               id="hostInput"
+               placeholder="Host (e.g., localhost)" />
+        <input type="number"
+               id="portInput"
+               placeholder="Port (e.g., 9001)" />
+
+        <!-- File picker -->
         <input type="file" id="fileSend" />
+
+        <!-- Send button, disabled until a file is chosen -->
         <button id="send-btn" disabled>Send</button>
     </div>
 </div>
