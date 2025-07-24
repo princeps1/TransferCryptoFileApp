@@ -11,4 +11,8 @@ public interface IFsw
 
     [Post("/api/Fsw/checkbox")]
     Task<string> SetCheckbox([Body] AlgorithmRequest model);
+
+    [Multipart]
+    [Post("/api/Fsw/uploadDecrypt")]
+    Task<UploadResponse> UploadFileDecrypt([AliasAs("file")] StreamPart file);
 }

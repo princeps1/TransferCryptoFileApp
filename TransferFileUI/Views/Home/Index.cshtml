@@ -77,7 +77,7 @@
 <div class="container transfer" id="transfer">
     <!-- ENCODE SECTION (unchanged) -->
     <div class="form-container">
-        <h3>Upload File To Encode From Target Folder</h3>
+        <h3>Upload File To Encode </h3>
         <input type="file" id="fileEncode" disabled />
         <label><input type="checkbox" name="option" class="checkbox" value="Railfence" /> Railfence cipher</label>
         <label><input type="checkbox" name="option" class="checkbox" value="XXTEA" /> XXTEA</label>
@@ -104,6 +104,17 @@
         <input type="file" id="fileSend" />
         <button id="send-btn" disabled>Send</button>
     </div>
+
+    <!-- DECODE SECTION -->
+    <div class="form-container">
+        <h3>Upload File To Decode From Target </h3>
+        <input type="file" id="fileDecode" disabled />
+        <label><input type="checkbox" name="decryptOption" class="checkbox-decrypt" value="Railfence" /> Railfence cipher</label>
+        <label><input type="checkbox" name="decryptOption" class="checkbox-decrypt" value="XXTEA" /> XXTEA</label>
+        <label><input type="checkbox" name="decryptOption" class="checkbox-decrypt" value="XXTEACBC" /> XXTEA – CBC</label>
+        <button id="decode-btn" disabled>Decode</button>
+    </div>
+
 </div>
 
 

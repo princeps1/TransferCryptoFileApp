@@ -14,7 +14,8 @@ public class FswController : ControllerBase
 
         string rootPath = _env.ContentRootPath;
         string parentPath = Directory.GetParent(rootPath)!.FullName;
-        _target= Path.Combine(parentPath, "Target");
+        _target = Path.Combine(parentPath, "Target");
+
 
         if (!Directory.Exists(_target))
             Directory.CreateDirectory(_target);
@@ -40,6 +41,19 @@ public class FswController : ControllerBase
         await using var stream = new FileStream(filePath, FileMode.Create);
         await file.CopyToAsync(stream);
 
-        return Ok(new { message = "Fajl je sačuvan" });
+        return Ok(new { message = "Fajl je enkriptovan✅" });
     }
+
+
+    [HttpPost("uploadDecrypt")]
+    public async Task<IActionResult> UploadFileDecrypt([FromForm] IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+            return BadRequest("No file uploaded");
+
+        await _watcherService.DecryptFile(file);
+
+        return Ok(new { message = "Fajl je dekriptovan✅" });
+    }
+
 }

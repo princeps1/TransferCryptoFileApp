@@ -3,7 +3,9 @@
 public class FSWService
 {
     private readonly string _targetDirectory;
+    private readonly string _targetDirectory2;
     private readonly string _outputDirectory;
+
     private readonly ILogger<FSWService> _logger;
     private FileSystemWatcher? _watcher;
 
@@ -21,24 +23,26 @@ public class FSWService
         string rootPath = _env.ContentRootPath;
         string parentPath = Directory.GetParent(rootPath)!.FullName;
         _targetDirectory = Path.Combine(parentPath, "Target");
-        _outputDirectory = Path.Combine(parentPath, "X"); 
+        _targetDirectory2 = Path.Combine(parentPath, "Decrypted");
+        _outputDirectory = Path.Combine(parentPath, "X");
     }
 
 
 
     public void StartWatching()
     {
+        //Encrypt watcher
         if (!Directory.Exists(_targetDirectory))
             Directory.CreateDirectory(_targetDirectory);
         if (!Directory.Exists(_outputDirectory))
             Directory.CreateDirectory(_outputDirectory);
 
+        
         _watcher = new FileSystemWatcher(_targetDirectory)
         {
             NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite,
             Filter = "*.*" 
         };
-
         _watcher.Created += OnFileCreated;
         _watcher.EnableRaisingEvents = true;
 
@@ -95,6 +99,25 @@ public class FSWService
             }
         });
     }
+
+    public async Task DecryptFile(IFormFile file)
+    {
+        if (!Directory.Exists(_targetDirectory2))
+            Directory.CreateDirectory(_targetDirectory2);
+
+        var service = _factory.GetService(algorithmType); // algorithmType must be known beforehand
+
+        using var memoryStream = new MemoryStream();
+        await file.CopyToAsync(memoryStream);
+        byte[] fileBytes = memoryStream.ToArray();
+
+        byte[] decodedBytes = service.Decrypt(fileBytes);
+
+        string outputPath = Path.Combine(_targetDirectory2, file.FileName);
+        await File.WriteAllBytesAsync(outputPath, decodedBytes);
+    }
+
+
 
     public bool SetAlgorithmType(string data)
     {
