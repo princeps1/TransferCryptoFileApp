@@ -220,7 +220,7 @@ body {
 .teamPic {
     width: 100%;
     height: 0;
-    padding-bottom: 66%; /* 3:2 ratio */
+    padding-bottom: 66%; 
     background: url('/images/tim.png') center/cover no-repeat;
     border-radius: 12px;
     box-shadow: 0 8px 16px var(--shadow);

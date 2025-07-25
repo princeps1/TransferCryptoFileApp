@@ -25,12 +25,12 @@ const scrollLinks = document.querySelectorAll(".scroll-link");
 
 scrollLinks.forEach((link) => {
     link.addEventListener("click", function (event) {
-        event.preventDefault(); // Sprečava podrazumevanu akciju linka
+        event.preventDefault(); 
 
         const targetId = this.getAttribute("href").substring(1);
         const targetElement = document.getElementById(targetId);
 
-        // Skroluje do sekcije ako postoji
+        
         if (targetElement) {
             targetElement.scrollIntoView({ behavior: "smooth" });
         }
@@ -45,30 +45,30 @@ const encodeBtn = document.getElementById("encode-btn");
 // SALJE SERVERU KOJI ALGORITAM JE IZABRAN I OMOGUCAVA BIRANJE
 checkboxes.forEach((checkbox) => {
     checkbox.addEventListener("change", async () => {
-        // Omogućava samo jedan checkbox da bude selektovan
+        
         checkboxes.forEach((cb) => {
             if (cb !== checkbox) {
                 cb.checked = false;
             }
         });
 
-        // Omogućava ili onemogućava unos za fajl
+        
         fileEncodeInput.disabled = !checkbox.checked;
 
-        // Ako je checkbox selektovan, šalje podatke serveru
+        
         if (checkbox.checked) {
             try {
                 const response = await fetch("Fsw/Checkbox", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ algorithmType: checkbox.value })  // JSON object
+                    body: JSON.stringify({ algorithmType: checkbox.value }) 
                 });
 
 
 
                 if (response.ok) {
-                    const data = await response.text(); // Menja se sa .json() na .text()
-                    console.log(data); // Ispisuje tekstualni odgovor
+                    const data = await response.text(); 
+                    console.log(data); 
                 } else {
                     console.error("Failed to fetch:", response.statusText);
                 }
@@ -81,7 +81,6 @@ checkboxes.forEach((checkbox) => {
 
 // OMOGUCAVA DUGME DA BUDE STISNUTO I CONSOL LOGUJE KOJI CE FAJL BITI ENKRIPTOVAN
 fileEncodeInput.addEventListener("change", () => {
-    //ako je dodat neki fajl,omoguci dugme Encode
     encodeBtn.disabled = !fileEncodeInput.files.length;
     console.log("File selected:", fileEncodeInput.files[0]?.name);
 });
@@ -133,7 +132,6 @@ const portInput = document.getElementById('portInput');
 const fileInput = document.getElementById('fileSend');
 const sendBtn = document.getElementById('send-btn');
 
-// Enable the send button only when a file is selected
 fileInput.addEventListener('change', () => {
     sendBtn.disabled = fileInput.files.length === 0;
 });
@@ -143,7 +141,6 @@ sendBtn.addEventListener('click', async () => {
     const port = parseInt(portInput.value, 10);
     const file = fileInput.files[0];
 
-    // Basic validation
     if (!host) {
         return alert('Please enter a host.');
     }
@@ -154,7 +151,6 @@ sendBtn.addEventListener('click', async () => {
         return alert('Please select a file.');
     }
 
-    // Build form data
     const formData = new FormData();
     formData.append('host', host);
     formData.append('port', port);
@@ -185,7 +181,6 @@ sendBtn.addEventListener('click', async () => {
 
 
 (function () {
-    // grab all our elements just once
     const serverToggleEl = document.getElementById('serverToggle');
     const serverPortEl = document.getElementById('serverPort');
     const hostInputEl = document.getElementById('hostInput');
@@ -193,7 +188,6 @@ sendBtn.addEventListener('click', async () => {
     const fileInputEl = document.getElementById('fileSend');
     const sendBtnEl = document.getElementById('send-btn');
 
-    // helper to toggle client parts
     function setClientEnabled(enabled) {
         hostInputEl.disabled = !enabled;
         portInputEl.disabled = !enabled;
@@ -201,19 +195,16 @@ sendBtn.addEventListener('click', async () => {
         sendBtnEl.disabled = !enabled || fileInputEl.files.length === 0;
     }
 
-    // re-check Send button when file changes (only if in client mode)
     fileInputEl.addEventListener('change', () => {
         if (!serverToggleEl.checked) {
             sendBtnEl.disabled = fileInputEl.files.length === 0;
         }
     });
 
-    // when the server checkbox flips
     serverToggleEl.addEventListener('change', async () => {
         const isServer = serverToggleEl.checked;
         setClientEnabled(!isServer);
 
-        // choose your MVC endpoints
         const url = isServer ? '/Tcp/BecomeServer' : '/Tcp/StopServer';
         const form = new FormData();
 
@@ -236,14 +227,12 @@ sendBtn.addEventListener('click', async () => {
             const payload = await res.json();
 
             if (res.ok) {
-                // success alert varies by action
                 if (isServer) {
                     alert('✅ Server started on port ' + serverPortEl.value);
                 } else {
                     alert('🛑 Server stopped.');
                 }
             } else {
-                // server replied non-200
                 alert('Error: ' + (payload.message || res.statusText));
                 // revert toggle so UI stays consistent
                 serverToggleEl.checked = !isServer;
@@ -257,7 +246,6 @@ sendBtn.addEventListener('click', async () => {
         }
     });
 
-    // initial state: client enabled
     setClientEnabled(true);
 })();
 
@@ -269,27 +257,21 @@ const decodeBtn = document.getElementById("decode-btn");
 // SALJE SERVERU KOJI ALGORITAM JE IZABRAN I OMOGUCAVA BIRANJE
 decodeCheckboxes.forEach((checkbox) => {
     checkbox.addEventListener("change", async () => {
-        // Deselect other decode checkboxes
         decodeCheckboxes.forEach((cb) => {
             if (cb !== checkbox) cb.checked = false;
         });
 
-        // Disable/enable file input
         fileDecodeInput.disabled = !checkbox.checked;
 
-        // ✅ Disable encode checkboxes if any decode one is selected
         const encodeCheckboxes = document.querySelectorAll(".checkbox");
         checkboxes.forEach((checkbox) => {
             checkbox.addEventListener("change", async () => {
-                // Deselect other encode checkboxes
                 checkboxes.forEach((cb) => {
                     if (cb !== checkbox) cb.checked = false;
                 });
 
-                // Enable or disable file input
                 fileEncodeInput.disabled = !checkbox.checked;
 
-                // ✅ Disable decode checkboxes if any encode one is selected
                 const decodeCheckboxes = document.querySelectorAll(".checkbox-decrypt");
                 decodeCheckboxes.forEach(cb => {
                     cb.disabled = checkbox.checked;

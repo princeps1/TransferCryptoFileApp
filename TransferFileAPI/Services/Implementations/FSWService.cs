@@ -105,7 +105,7 @@ public class FSWService
         if (!Directory.Exists(_targetDirectory2))
             Directory.CreateDirectory(_targetDirectory2);
 
-        var service = _factory.GetService(algorithmType); // algorithmType must be known beforehand
+        var service = _factory.GetService(algorithmType); 
 
         using var memoryStream = new MemoryStream();
         await file.CopyToAsync(memoryStream);
