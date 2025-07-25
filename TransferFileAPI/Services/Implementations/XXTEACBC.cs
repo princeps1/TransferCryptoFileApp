@@ -5,7 +5,7 @@ namespace WebTemplate.Services.Implementations;
 
 public class XXTEACBC : IAlgorithm
 {
-    private const int BlockSize = 8; // Velicina bloka (64 bita)
+    private const int BlockSize = 8;
     private readonly XXTEA _xxtea;
 
     public XXTEACBC(XXTEA xxtea)
@@ -13,65 +13,54 @@ public class XXTEACBC : IAlgorithm
         _xxtea = xxtea;
     }
 
-    // Metoda za enkripciju u CBC modu
-    public Byte[] Encrypt(Byte[] data)
+    public byte[] Encrypt(byte[] data)
     {
-        if (data == null)
-            throw new ArgumentNullException(nameof(data));
+        if (data is null) throw new ArgumentNullException(nameof(data));
 
-        // Generišemo nasumičan IV
-        Byte[] iv = GenerateIV();
-        List<Byte> encrypted = new List<Byte>(iv); // Početak rezultata sa IV-om
+        byte[] iv = GenerateIV();
+        var output = new List<byte>(iv);
 
-        // Dodaj padding podacima
-        data = Pad(data, BlockSize);
+        // pad to a multiple of 8
+        var padded = Pad(data, BlockSize);
+        byte[] prev = iv;
 
-        Byte[] prevBlock = iv;
-
-        // Procesiramo svaki blok
-        for (int i = 0; i < data.Length; i += BlockSize)
+        for (int i = 0; i < padded.Length; i += BlockSize)
         {
-            Byte[] block = data.Skip(i).Take(BlockSize).ToArray();
-            Byte[] xoredBlock = XOR(block, prevBlock); // XOR sa prethodnim blokom
-            Byte[] encryptedBlock = _xxtea.Encrypt(xoredBlock); // Šifrujemo
-            encrypted.AddRange(encryptedBlock); // Dodajemo šifrovani blok
-            prevBlock = encryptedBlock; // Postavljamo za sledeću iteraciju
+            byte[] chunk = padded.AsSpan(i, BlockSize).ToArray();
+            byte[] xored = XOR(chunk, prev);
+            byte[] cipher = _xxtea.EncryptBlock(xored);   // <-- block call
+            output.AddRange(cipher);
+            prev = cipher;
         }
 
-        return encrypted.ToArray();
+        return output.ToArray();
     }
 
-
-    // Metoda za dekripciju u CBC modu
-    public Byte[] Decrypt(Byte[] data)
+    public byte[] Decrypt(byte[] data)
     {
         if (data == null || data.Length < BlockSize)
-            throw new ArgumentException("Invalid encrypted data");
+            throw new ArgumentException("Invalid data", nameof(data));
 
-        // Prvi blok je IV
-        Byte[] iv = data.Take(BlockSize).ToArray();
-        Byte[] encryptedData = data.Skip(BlockSize).ToArray();
+        byte[] iv = data[..BlockSize];
+        byte[] cipher = data[BlockSize..];
 
-        if (encryptedData.Length % BlockSize != 0)
-            throw new ArgumentException("Invalid encrypted data length");
+        if (cipher.Length % BlockSize != 0)
+            throw new ArgumentException("Invalid length", nameof(data));
 
-        List<Byte> decrypted = new List<Byte>();
-        Byte[] prevBlock = iv;
+        var plain = new List<byte>();
+        byte[] prev = iv;
 
-        // Procesiramo svaki šifrovani blok
-        for (int i = 0; i < encryptedData.Length; i += BlockSize)
+        for (int i = 0; i < cipher.Length; i += BlockSize)
         {
-            Byte[] encryptedBlock = encryptedData.Skip(i).Take(BlockSize).ToArray();
-            Byte[] decryptedBlock = _xxtea.Decrypt(encryptedBlock); // Dešifrujemo blok
-            Byte[] originalBlock = XOR(decryptedBlock, prevBlock); // XOR sa prethodnim blokom
-            decrypted.AddRange(originalBlock); // Dodajemo dešifrovane podatke
-            prevBlock = encryptedBlock; // Postavljamo za sledeću iteraciju
+            byte[] block = cipher.AsSpan(i, BlockSize).ToArray();
+            byte[] dec = _xxtea.DecryptBlock(block);    // <-- block call
+            byte[] orig = XOR(dec, prev);
+            plain.AddRange(orig);
+            prev = block;
         }
 
-        return Unpad(decrypted.ToArray());
+        return Unpad(plain.ToArray());
     }
-
-
     // Generisanje nasumičnog IV-a
     private Byte[] GenerateIV()
     {

@@ -144,4 +144,28 @@ public class XXTEA : IAlgorithm
         }
         return result;
     }
+
+
+    public byte[] EncryptBlock(byte[] block)
+    {
+        if (block.Length != 8)
+            throw new ArgumentException("XXTEA block must be 8 bytes");
+
+        var v = ToUInt32Array(block, includeLength: false);
+        var k = ToUInt32Array(FixKey(key), includeLength: false);
+        var enc = Encrypt(v, k);
+        return ToByteArray(enc, includeLength: false);
+    }
+
+    // Decrypt exactly 8 bytes → 8 bytes
+    public byte[] DecryptBlock(byte[] block)
+    {
+        if (block.Length != 8)
+            throw new ArgumentException("XXTEA block must be 8 bytes");
+
+        var v = ToUInt32Array(block, includeLength: false);
+        var k = ToUInt32Array(FixKey(key), includeLength: false);
+        var dec = Decrypt(v, k);
+        return ToByteArray(dec, includeLength: false);
+    }
 }
