@@ -79,9 +79,10 @@ checkboxes.forEach((checkbox) => {
     });
 });
 
-// OMOGUCAVA DUGME DA BUDE STISNUTO I CONSOL LOGUJE KOJI CE FAJL BITI ENKRIPTOVAN
+// OMOGUCAVA DUGME DA BUDE STISNUTO I CONSOL LOGUJE KOJI FAJL JE SELEKTOVAN
 fileEncodeInput.addEventListener("change", () => {
     encodeBtn.disabled = !fileEncodeInput.files.length;
+    decodeBtn.disabled = !fileEncodeInput.files.length;
     console.log("File selected:", fileEncodeInput.files[0]?.name);
 });
 
@@ -250,90 +251,36 @@ sendBtn.addEventListener('click', async () => {
 })();
 
 // DEKODIRANJE FAJLA
-const fileDecodeInput = document.getElementById("fileDecode");
-const decodeCheckboxes = document.querySelectorAll(".checkbox-decrypt");
 const decodeBtn = document.getElementById("decode-btn");
 
 // SALJE SERVERU KOJI ALGORITAM JE IZABRAN I OMOGUCAVA BIRANJE
-decodeCheckboxes.forEach((checkbox) => {
-    checkbox.addEventListener("change", async () => {
-        decodeCheckboxes.forEach((cb) => {
-            if (cb !== checkbox) cb.checked = false;
+decodeBtn.addEventListener("click", async () => {
+    if (!fileEncodeInput.files || !fileEncodeInput.files[0]) {
+        console.log("No file selected.");
+        return;
+    }
+
+    const selectedFile = fileEncodeInput.files[0];
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+
+    try {
+        const response = await fetch("Fsw/uploadDecrypt", {
+            method: "POST",
+            body: formData
         });
 
-        fileDecodeInput.disabled = !checkbox.checked;
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data.message);
 
-        const encodeCheckboxes = document.querySelectorAll(".checkbox");
-        checkboxes.forEach((checkbox) => {
-            checkbox.addEventListener("change", async () => {
-                checkboxes.forEach((cb) => {
-                    if (cb !== checkbox) cb.checked = false;
-                });
-
-                fileEncodeInput.disabled = !checkbox.checked;
-
-                const decodeCheckboxes = document.querySelectorAll(".checkbox-decrypt");
-                decodeCheckboxes.forEach(cb => {
-                    cb.disabled = checkbox.checked;
-                });
-
-                if (checkbox.checked) {
-                    try {
-                        const response = await fetch("Fsw/Checkbox", {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({ algorithmType: checkbox.value })
-                        });
-
-                        if (response.ok) {
-                            const data = await response.text();
-                            console.log(data);
-                        } else {
-                            console.error("Failed to fetch:", response.statusText);
-                        }
-                    } catch (error) {
-                        console.error("Error:", error);
-                    }
-                }
-            });
-        });
-
-        // OMOGUCAVA DUGME DA BUDE STISNUTO I CONSOL LOGUJE KOJI CE FAJL BITI DEKRIPTOVAN
-        fileDecodeInput.addEventListener("change", () => {
-            updateDecodeButtonState();
-            console.log("File selected for decode:", fileDecodeInput.files[0]?.name);
-        });
-
-        // Funkcija za omogućavanje dugmeta
-        function updateDecodeButtonState() {
-            const isCheckboxChecked = Array.from(decodeCheckboxes).some(cb => cb.checked);
-            const isFileSelected = fileDecodeInput.files.length > 0;
-            decodeBtn.disabled = !(isCheckboxChecked && isFileSelected);
+          
+            alert(data.message);
+        } else {
+            console.error("Error uploading file:", response.statusText);
         }
-
-        // Handle Decode Button click
-        decodeBtn.addEventListener("click", async function () {
-            const file = fileDecodeInput.files[0];
-            if (!file) return;
-
-            const formData = new FormData();
-            formData.append("file", file);
-
-            try {
-                const response = await fetch("Fsw/uploadDecrypt", {
-                    method: "POST",
-                    body: formData
-                });
-
-                if (response.ok) {
-                    const result = await response.json();
-                    alert(result.message);
-                } else {
-                    alert("Greška prilikom slanja fajla za dekripciju");
-                }
-            } catch (error) {
-                console.error("Error during file upload:", error);
-            }
-        })
-    })
-})
+    } catch (error) {
+        console.error("Error:", error);
+    }
+});
