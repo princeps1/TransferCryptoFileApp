@@ -38,7 +38,7 @@ scrollLinks.forEach((link) => {
 });
 
 
-// ... (ostali kod ostaje nepromenjen)
+
 
 // KODIRANJE FAJLA
 const fileEncodeInput = document.getElementById("fileEncode");
@@ -160,3 +160,128 @@ decodeBtn.addEventListener("click", async () => {
         console.error("Error:", error);
     }
 });
+
+
+//SLANJE FAJLA
+
+const hostInput = document.getElementById('hostInput');
+const portInput = document.getElementById('portInput');
+const fileInput = document.getElementById('fileSend');
+const sendBtn = document.getElementById('send-btn');
+
+fileInput.addEventListener('change', () => {
+    sendBtn.disabled = fileInput.files.length === 0;
+});
+
+sendBtn.addEventListener('click', async () => {
+    const host = hostInput.value.trim();
+    const port = parseInt(portInput.value, 10);
+    const file = fileInput.files[0];
+
+    if (!host) {
+        return alert('Please enter a host.');
+    }
+    if (!port) {
+        return alert('Please enter a valid port.');
+    }
+    if (!file) {
+        return alert('Please select a file.');
+    }
+
+    const formData = new FormData();
+    formData.append('host', host);
+    formData.append('port', port);
+    formData.append('file', file);
+
+    try {
+        const response = await fetch('/Tcp/SendFile', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log('Success:', result);
+            alert(result.message);
+        } else {
+            const errorText = await response.text();
+            console.error('Server error:', errorText);
+            alert('Error: ' + errorText);
+        }
+    } catch (err) {
+        console.error('Network error:', err);
+        alert('Network error occurred. See console for details.');
+    }
+});
+
+
+
+
+(function () {
+    const serverToggleEl = document.getElementById('serverToggle');
+    const serverPortEl = document.getElementById('serverPort');
+    const hostInputEl = document.getElementById('hostInput');
+    const portInputEl = document.getElementById('portInput');
+    const fileInputEl = document.getElementById('fileSend');
+    const sendBtnEl = document.getElementById('send-btn');
+
+    function setClientEnabled(enabled) {
+        hostInputEl.disabled = !enabled;
+        portInputEl.disabled = !enabled;
+        fileInputEl.disabled = !enabled;
+        sendBtnEl.disabled = !enabled || fileInputEl.files.length === 0;
+    }
+
+    fileInputEl.addEventListener('change', () => {
+        if (!serverToggleEl.checked) {
+            sendBtnEl.disabled = fileInputEl.files.length === 0;
+        }
+    });
+
+    serverToggleEl.addEventListener('change', async () => {
+        const isServer = serverToggleEl.checked;
+        setClientEnabled(!isServer);
+
+        const url = isServer ? '/Tcp/BecomeServer' : '/Tcp/StopServer';
+        const form = new FormData();
+
+        if (isServer) {
+            const portVal = parseInt(serverPortEl.value, 10);
+            if (!portVal) {
+                alert('⚠️ Please enter a valid server port first.');
+                serverToggleEl.checked = false;
+                setClientEnabled(true);
+                return;
+            }
+            form.append('port', portVal);
+        }
+
+        try {
+            const res = await fetch(url, {
+                method: 'POST',
+                body: form
+            });
+            const payload = await res.json();
+
+            if (res.ok) {
+                if (isServer) {
+                    alert('✅ Server started on port ' + serverPortEl.value);
+                } else {
+                    alert('🛑 Server stopped.');
+                }
+            } else {
+                alert('Error: ' + (payload.message || res.statusText));
+                // revert toggle so UI stays consistent
+                serverToggleEl.checked = !isServer;
+                setClientEnabled(true);
+            }
+        } catch (err) {
+            console.error(err);
+            alert('Network error: ' + err.message);
+            serverToggleEl.checked = !isServer;
+            setClientEnabled(true);
+        }
+    });
+
+    setClientEnabled(true);
+})();
