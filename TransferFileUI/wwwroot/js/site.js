@@ -37,59 +37,68 @@ scrollLinks.forEach((link) => {
     });
 });
 
-//KODIRANJE FAJLA
+
+// ... (ostali kod ostaje nepromenjen)
+
+// KODIRANJE FAJLA
 const fileEncodeInput = document.getElementById("fileEncode");
 const checkboxes = document.querySelectorAll(".checkbox");
 const encodeBtn = document.getElementById("encode-btn");
+const decodeBtn = document.getElementById("decode-btn");
+
+// Dodajemo promenljivu za trenutno izabrani algoritam
+let selectedAlgorithm = null;
 
 // SALJE SERVERU KOJI ALGORITAM JE IZABRAN I OMOGUCAVA BIRANJE
 checkboxes.forEach((checkbox) => {
     checkbox.addEventListener("change", async () => {
-        
         checkboxes.forEach((cb) => {
             if (cb !== checkbox) {
                 cb.checked = false;
             }
         });
 
-        
         fileEncodeInput.disabled = !checkbox.checked;
 
-        
         if (checkbox.checked) {
+            selectedAlgorithm = checkbox.value; // Pamti izabrani algoritam
             try {
                 const response = await fetch("Fsw/Checkbox", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ algorithmType: checkbox.value }) 
+                    body: JSON.stringify({ algorithmType: checkbox.value })
                 });
 
-
-
                 if (response.ok) {
-                    const data = await response.text(); 
-                    console.log(data); 
+                    const data = await response.text();
+                    console.log(data);
                 } else {
                     console.error("Failed to fetch:", response.statusText);
                 }
             } catch (error) {
                 console.error("Error:", error);
             }
+        } else {
+            selectedAlgorithm = null; // Resetuj ako je odčekirano
         }
     });
 });
 
 // OMOGUCAVA DUGME DA BUDE STISNUTO I CONSOL LOGUJE KOJI FAJL JE SELEKTOVAN
 fileEncodeInput.addEventListener("change", () => {
-    encodeBtn.disabled = !fileEncodeInput.files.length;
-    decodeBtn.disabled = !fileEncodeInput.files.length;
+    encodeBtn.disabled = !fileEncodeInput.files.length || !selectedAlgorithm;
+    decodeBtn.disabled = !fileEncodeInput.files.length || !selectedAlgorithm;
     console.log("File selected:", fileEncodeInput.files[0]?.name);
 });
 
-//SALJE SERVERU FAJL ZA KODIRANJE
+// SALJE SERVERU FAJL ZA KODIRANJE
 encodeBtn.addEventListener("click", async () => {
     if (!fileEncodeInput.files || !fileEncodeInput.files[0]) {
         console.log("No file selected.");
+        return;
+    }
+    if (!selectedAlgorithm) {
+        alert("Please select an algorithm first.");
         return;
     }
 
@@ -97,6 +106,7 @@ encodeBtn.addEventListener("click", async () => {
 
     const formData = new FormData();
     formData.append("file", selectedFile);
+    formData.append("algorithmType", selectedAlgorithm); // Dodaj algoritam u formu
 
     try {
         const response = await fetch("Fsw/Upload", {
@@ -107,8 +117,6 @@ encodeBtn.addEventListener("click", async () => {
         if (response.ok) {
             const data = await response.json();
             console.log(data.message);
-
-            // ✅ Add this alert line here
             alert(data.message);
         } else {
             console.error("Error uploading file:", response.statusText);
@@ -118,145 +126,14 @@ encodeBtn.addEventListener("click", async () => {
     }
 });
 
-
-/////////////
-
-//
-//
-//
-//
-//
-//SLANJE FAJLA
-
-const hostInput = document.getElementById('hostInput');
-const portInput = document.getElementById('portInput');
-const fileInput = document.getElementById('fileSend');
-const sendBtn = document.getElementById('send-btn');
-
-fileInput.addEventListener('change', () => {
-    sendBtn.disabled = fileInput.files.length === 0;
-});
-
-sendBtn.addEventListener('click', async () => {
-    const host = hostInput.value.trim();
-    const port = parseInt(portInput.value, 10);
-    const file = fileInput.files[0];
-
-    if (!host) {
-        return alert('Please enter a host.');
-    }
-    if (!port) {
-        return alert('Please enter a valid port.');
-    }
-    if (!file) {
-        return alert('Please select a file.');
-    }
-
-    const formData = new FormData();
-    formData.append('host', host);
-    formData.append('port', port);
-    formData.append('file', file);
-
-    try {
-        const response = await fetch('/Tcp/SendFile', {
-            method: 'POST',
-            body: formData
-        });
-
-        if (response.ok) {
-            const result = await response.json();
-            console.log('Success:', result);
-            alert(result.message);
-        } else {
-            const errorText = await response.text();
-            console.error('Server error:', errorText);
-            alert('Error: ' + errorText);
-        }
-    } catch (err) {
-        console.error('Network error:', err);
-        alert('Network error occurred. See console for details.');
-    }
-});
-
-
-
-
-(function () {
-    const serverToggleEl = document.getElementById('serverToggle');
-    const serverPortEl = document.getElementById('serverPort');
-    const hostInputEl = document.getElementById('hostInput');
-    const portInputEl = document.getElementById('portInput');
-    const fileInputEl = document.getElementById('fileSend');
-    const sendBtnEl = document.getElementById('send-btn');
-
-    function setClientEnabled(enabled) {
-        hostInputEl.disabled = !enabled;
-        portInputEl.disabled = !enabled;
-        fileInputEl.disabled = !enabled;
-        sendBtnEl.disabled = !enabled || fileInputEl.files.length === 0;
-    }
-
-    fileInputEl.addEventListener('change', () => {
-        if (!serverToggleEl.checked) {
-            sendBtnEl.disabled = fileInputEl.files.length === 0;
-        }
-    });
-
-    serverToggleEl.addEventListener('change', async () => {
-        const isServer = serverToggleEl.checked;
-        setClientEnabled(!isServer);
-
-        const url = isServer ? '/Tcp/BecomeServer' : '/Tcp/StopServer';
-        const form = new FormData();
-
-        if (isServer) {
-            const portVal = parseInt(serverPortEl.value, 10);
-            if (!portVal) {
-                alert('⚠️ Please enter a valid server port first.');
-                serverToggleEl.checked = false;
-                setClientEnabled(true);
-                return;
-            }
-            form.append('port', portVal);
-        }
-
-        try {
-            const res = await fetch(url, {
-                method: 'POST',
-                body: form
-            });
-            const payload = await res.json();
-
-            if (res.ok) {
-                if (isServer) {
-                    alert('✅ Server started on port ' + serverPortEl.value);
-                } else {
-                    alert('🛑 Server stopped.');
-                }
-            } else {
-                alert('Error: ' + (payload.message || res.statusText));
-                // revert toggle so UI stays consistent
-                serverToggleEl.checked = !isServer;
-                setClientEnabled(true);
-            }
-        } catch (err) {
-            console.error(err);
-            alert('Network error: ' + err.message);
-            serverToggleEl.checked = !isServer;
-            setClientEnabled(true);
-        }
-    });
-
-    setClientEnabled(true);
-})();
-
 // DEKODIRANJE FAJLA
-const decodeBtn = document.getElementById("decode-btn");
-
-// SALJE SERVERU KOJI ALGORITAM JE IZABRAN I OMOGUCAVA BIRANJE
 decodeBtn.addEventListener("click", async () => {
     if (!fileEncodeInput.files || !fileEncodeInput.files[0]) {
         console.log("No file selected.");
+        return;
+    }
+    if (!selectedAlgorithm) {
+        alert("Please select an algorithm first.");
         return;
     }
 
@@ -264,6 +141,7 @@ decodeBtn.addEventListener("click", async () => {
 
     const formData = new FormData();
     formData.append("file", selectedFile);
+    formData.append("algorithmType", selectedAlgorithm); // Dodaj algoritam u formu
 
     try {
         const response = await fetch("Fsw/uploadDecrypt", {
@@ -274,8 +152,6 @@ decodeBtn.addEventListener("click", async () => {
         if (response.ok) {
             const data = await response.json();
             console.log(data.message);
-
-          
             alert(data.message);
         } else {
             console.error("Error uploading file:", response.statusText);

@@ -57,6 +57,7 @@ public class FSWService
             {
                 Console.WriteLine($"New file detected: {e.Name}");
 
+                Thread.Sleep(5000);
                 var service = _factory.GetService(algorithmType);
 
 
